@@ -1,2 +1,2 @@
 valid_time_utc,current_stage_ft,r1_ft_per_hr,r3_ft_per_hr,r6_ft_per_hr,momentum_r1_minus_r3,elapsed_hr_since_rise_start,most_likely_crest_ft,decision_crest_v3_ft,confidence,decision_method
-2026-06-01T20:00:00+00:00,9.31,0.0,-0.027,-0.038,0.027,0.0,16.25,17.46,MEDIUM,P75_TOP_ANALOG_BASELINE
+2026-06-01T21:00:00+00:00,9.28,-0.03,-0.023,-0.033,-0.007,0.0,16.23,17.46,MEDIUM,P75_TOP_ANALOG_BASELINE
