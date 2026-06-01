@@ -1,0 +1,3 @@
+This package includes backtest_v2_all_snapshots.csv copied as data/event_snapshots.csv so the repo can run immediately.
+
+If you have the cleaner/original event_snapshots.csv from your historical database workflow, replace data/event_snapshots.csv with that file.
