@@ -1,0 +1,83 @@
+event_id,crest_date,listed_crest_stage_ft,status,message,raw_points,hourly_points,observed_peak_stage_ft,observed_peak_datetime_utc,peak_difference_ft,rapid_rise_start_datetime_utc,h0_stage_ft,time_to_peak_hr,total_rise_from_h0_ft
+19160705_2996,1916-07-05,29.96,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19611215_2496,1961-12-15,24.96,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20120831_2454,2012-08-31,24.54,ok,Usable event data and snapshots created.,480,120,24.535,2012-08-31T10:00:00+00:00,-0.005,2012-08-29T16:00:00+00:00,7.16,42.0,17.38
+19930121_2343,1993-01-21,23.43,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19830407_2325,1983-04-07,23.25,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20190512_2297,2019-05-12,22.97,ok,Usable event data and snapshots created.,480,120,22.953,2019-05-12T14:00:00+00:00,-0.017,2019-05-09T22:00:00+00:00,6.537,64.0,16.432
+20160312_2262,2016-03-12,22.62,ok,Usable event data and snapshots created.,476,119,22.587,2016-03-12T13:00:00+00:00,-0.033,2016-03-11T07:00:00+00:00,7.468,30.0,15.152
+19790404_2258,1979-04-04,22.58,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19810212_2229,1981-02-12,22.29,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19720512_2205,1972-05-12,22.05,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19800412_2194,1980-04-12,21.94,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19731225_2132,1973-12-25,21.32,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19750415_2130,1975-04-15,21.3,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19730913_2113,1973-09-13,21.13,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20050830_2095,2005-08-30,20.95,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19660213_2057,1966-02-13,20.57,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20030702_2038,2003-07-02,20.38,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19980108_2033,1998-01-08,20.33,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20040426_2029,2004-04-26,20.29,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19770422_2021,1977-04-22,20.21,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19820331_2019,1982-03-31,20.19,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20020927_2015,2002-09-27,20.15,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20210830_1979,2021-08-30,19.79,ok,Usable event data and snapshots created.,474,120,19.767,2021-08-30T19:00:00+00:00,-0.023,2021-08-30T03:00:00+00:00,7.058,16.0,12.732
+20010611_1975,2001-06-11,19.75,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20181229_1972,2018-12-29,19.72,ok,Usable event data and snapshots created.,480,120,19.695,2018-12-29T17:00:00+00:00,-0.025,2018-12-27T22:00:00+00:00,7.192,43.0,12.527
+20210415_1956,2021-04-15,19.56,ok,Usable event data and snapshots created.,480,120,19.545,2021-04-15T21:00:00+00:00,-0.015,2021-04-14T20:00:00+00:00,10.027,25.0,9.532
+20210410_1948,2021-04-10,19.48,ok,Usable event data and snapshots created.,480,120,19.465,2021-04-10T19:00:00+00:00,-0.015,2021-04-08T10:00:00+00:00,7.558,57.0,11.922
+20090328_1915,2009-03-28,19.15,ok,Usable event data and snapshots created.,480,120,19.15,2009-03-28T22:00:00+00:00,0.0,2009-03-26T14:00:00+00:00,7.137,56.0,12.012
+19840227_1903,1984-02-27,19.03,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20240125_1893,2024-01-25,18.93,ok,Usable event data and snapshots created.,480,120,18.922,2024-01-25T09:00:00+00:00,-0.008,2024-01-24T21:00:00+00:00,7.76,12.0,11.17
+19670414_1878,1967-04-14,18.78,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20160224_1871,2016-02-24,18.71,ok,Usable event data and snapshots created.,480,120,18.705,2016-02-24T11:00:00+00:00,-0.005,2016-02-23T22:00:00+00:00,7.005,13.0,11.705
+19990314_1867,1999-03-14,18.67,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19910510_1866,1991-05-10,18.66,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19851030_1851,1985-10-30,18.51,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19900513_1844,1990-05-13,18.44,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20150517_1831,2015-05-17,18.31,ok,Usable event data and snapshots created.,473,120,18.3,2015-05-17T23:00:00+00:00,-0.01,2015-05-16T05:00:00+00:00,7.165,42.0,11.145
+19780508_1825,1978-05-08,18.25,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19880304_1821,1988-03-04,18.21,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19970225_1812,1997-02-25,18.12,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20021112_1809,2002-11-12,18.09,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19850816_1802,1985-08-16,18.02,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20080503_1797,2008-05-03,17.97,ok,Usable event data and snapshots created.,480,120,17.968,2008-05-03T18:00:00+00:00,-0.002,2008-05-03T03:00:00+00:00,7.115,15.0,10.855
+20210212_1794,2021-02-12,17.94,ok,Usable event data and snapshots created.,480,120,17.93,2021-02-12T08:00:00+00:00,-0.01,2021-02-11T19:00:00+00:00,7.995,13.0,9.945
+20030408_1793,2003-04-08,17.93,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+19950509_1785,1995-05-09,17.85,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20210324_1785,2021-03-24,17.85,ok,Usable event data and snapshots created.,480,120,17.84,2021-03-24T17:00:00+00:00,-0.01,2021-03-23T20:00:00+00:00,7.775,21.0,10.075
+20091215_1781,2009-12-15,17.81,ok,Usable event data and snapshots created.,480,120,17.803,2009-12-15T20:00:00+00:00,-0.007,2009-12-12T16:00:00+00:00,8.715,76.0,9.095
+19701007_1772,1970-10-07,17.72,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20210916_1768,2021-09-16,17.68,ok,Usable event data and snapshots created.,480,120,17.672,2021-09-16T05:00:00+00:00,-0.008,2021-09-15T11:00:00+00:00,7.715,18.0,9.965
+20140329_1765,2014-03-29,17.65,ok,Usable event data and snapshots created.,459,120,17.645,2014-03-29T11:00:00+00:00,-0.005,2014-03-28T10:00:00+00:00,7.162,25.0,10.487
+20210205_1762,2021-02-05,17.62,data_ok_peak_mismatch,Observed hourly peak differs from listed crest by -8.30 ft. Check date/time/window/datum/data availability.,480,120,9.325,2021-02-07T05:00:00+00:00,-8.295,2021-02-06T23:00:00+00:00,8.39,6.0,9.23
+20221130_1755,2022-11-30,17.55,ok,Usable event data and snapshots created.,480,120,17.538,2022-11-30T21:00:00+00:00,-0.012,2022-11-30T11:00:00+00:00,8.912,10.0,8.638
+20130225_1748,2013-02-25,17.48,ok,Usable event data and snapshots created.,480,120,17.48,2013-02-25T20:00:00+00:00,0.0,2013-02-23T08:00:00+00:00,8.88,60.0,8.6
+19870228_1744,1987-02-28,17.44,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20021004_1737,2002-10-04,17.37,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20110905_1737,2011-09-05,17.37,ok,Usable event data and snapshots created.,480,120,17.37,2011-09-05T06:00:00+00:00,0.0,2011-09-04T07:00:00+00:00,6.383,23.0,10.988
+19920217_1716,1992-02-17,17.16,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20170605_1714,2017-06-05,17.14,ok,Usable event data and snapshots created.,480,120,17.117,2017-06-05T07:00:00+00:00,-0.023,2017-06-02T08:00:00+00:00,10.755,71.0,6.385
+20021225_1702,2002-12-25,17.02,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20250508_1701,2025-05-08,17.01,ok,Usable event data and snapshots created.,480,120,16.997,2025-05-08T08:00:00+00:00,-0.013,2025-05-07T07:00:00+00:00,6.982,25.0,10.028
+19690818_1684,1969-08-18,16.84,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20240109_1655,2024-01-09,16.55,ok,Usable event data and snapshots created.,480,120,16.545,2024-01-09T22:00:00+00:00,-0.005,2024-01-06T07:00:00+00:00,6.877,87.0,9.673
+19890323_1653,1989-03-23,16.53,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20201029_1642,2020-10-29,16.42,ok,Usable event data and snapshots created.,480,120,16.405,2020-10-29T11:00:00+00:00,-0.015,2020-10-29T00:00:00+00:00,6.348,11.0,10.073
+20210712_1635,2021-07-12,16.35,ok,Usable event data and snapshots created.,480,120,16.348,2021-07-13T01:00:00+00:00,-0.003,2021-07-11T22:00:00+00:00,10.533,27.0,5.818
+20210619_1632,2021-06-19,16.32,ok,Usable event data and snapshots created.,480,120,16.312,2021-06-19T17:00:00+00:00,-0.008,2021-06-19T06:00:00+00:00,6.897,11.0,9.422
+20221215_1627,2022-12-15,16.27,ok,Usable event data and snapshots created.,480,120,16.265,2022-12-15T17:00:00+00:00,-0.005,2022-12-14T23:00:00+00:00,7.228,18.0,9.043
+20210721_1623,2021-07-21,16.23,ok,Usable event data and snapshots created.,480,120,16.21,2021-07-21T13:00:00+00:00,-0.02,2021-07-18T07:00:00+00:00,8.21,78.0,8.02
+19960415_1608,1996-04-15,16.08,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20061231_1604,2006-12-31,16.04,no_data,No USGS IV gage-height data returned for this window. Old events may not have IV stage data online.,0,0,,,,,,,
+20200104_1598,2020-01-04,15.98,ok,Usable event data and snapshots created.,480,120,15.973,2020-01-04T11:00:00+00:00,-0.008,2020-01-02T12:00:00+00:00,6.883,47.0,9.098
+20210425_1587,2021-04-25,15.87,ok,Usable event data and snapshots created.,480,120,15.862,2021-04-26T02:00:00+00:00,-0.008,2021-04-24T09:00:00+00:00,7.803,41.0,8.067
+20250408_1568,2025-04-08,15.68,ok,Usable event data and snapshots created.,467,120,15.672,2025-04-08T07:00:00+00:00,-0.008,2025-04-06T16:00:00+00:00,6.765,39.0,8.915
+20240128_1560,2024-01-28,15.6,data_ok_no_rise_start,"Data found, but rapid-rise start threshold was not met before peak. Try lowering thresholds or expanding window.",480,120,18.922,2024-01-25T09:00:00+00:00,3.322,,,,
+20220406_1558,2022-04-06,15.58,ok,Usable event data and snapshots created.,478,120,15.575,2022-04-06T18:00:00+00:00,-0.005,2022-04-05T17:00:00+00:00,7.305,25.0,8.275
+20210505_1554,2021-05-05,15.54,ok,Usable event data and snapshots created.,480,120,15.522,2021-05-05T10:00:00+00:00,-0.018,2021-05-02T17:00:00+00:00,7.627,65.0,7.912
+20221127_1539,2022-11-27,15.39,ok,Usable event data and snapshots created.,480,120,15.383,2022-11-27T14:00:00+00:00,-0.008,2022-11-25T04:00:00+00:00,6.412,58.0,8.978
+20210512_1527,2021-05-12,15.27,ok,Usable event data and snapshots created.,480,120,15.262,2021-05-12T16:00:00+00:00,-0.008,2021-05-10T15:00:00+00:00,7.645,49.0,7.625
+20200608_1526,2020-06-08,15.26,ok,Usable event data and snapshots created.,480,120,15.252,2020-06-08T19:00:00+00:00,-0.008,2020-06-07T23:00:00+00:00,7.145,20.0,8.115
+20250510_1517,2025-05-10,15.17,data_ok_peak_mismatch,Observed hourly peak differs from listed crest by 1.83 ft. Check date/time/window/datum/data availability.,480,120,16.997,2025-05-08T08:00:00+00:00,1.827,2025-05-07T07:00:00+00:00,6.982,25.0,8.188
+20071023_1512,2007-10-23,15.12,ok,Usable event data and snapshots created.,480,120,15.112,2007-10-23T17:00:00+00:00,-0.008,2007-10-22T23:00:00+00:00,6.62,18.0,8.5
