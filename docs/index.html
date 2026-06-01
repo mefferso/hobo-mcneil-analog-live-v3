@@ -7,60 +7,116 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Hobo/McNeil Analog Crest Forecast</h1>
-      <p class="subtitle">Operational situational-awareness dashboard &mdash; not an official forecast product.</p>
+  <header class="siteHeader">
+    <div class="headerContent">
+      <div>
+        <p class="eyebrow">Hobo Chitto / McNeil</p>
+        <h1>Analog Crest Forecast Dashboard</h1>
+        <p class="subtitle">
+          Operational situational-awareness guidance using historical hydrograph analogs and V3.1 guardrails.
+          This is not an official NWS river forecast product.
+        </p>
+      </div>
+      <div class="headerActions">
+        <span id="forecastBadge" class="badge">-- ft</span>
+        <button id="refreshBtn">Refresh data</button>
+      </div>
     </div>
-    <button id="refreshBtn">Refresh</button>
   </header>
 
   <main>
-    <section id="statusCard" class="card full">
-      <h2>Current V3 Forecast</h2>
-      <div id="statusMessage" class="notice">Loading latest forecast...</div>
+    <section id="statusCard" class="card full heroCard">
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Live autopilot output</p>
+          <h2>Current V3.1 Forecast</h2>
+        </div>
+        <p id="statusMessage" class="notice">Loading latest forecast...</p>
+      </div>
       <div id="forecastGrid" class="grid hidden"></div>
     </section>
 
     <section class="card">
-      <h2>Current Hydrograph State</h2>
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Inputs</p>
+          <h2>Current Hydrograph State</h2>
+        </div>
+      </div>
       <table id="stateTable"></table>
     </section>
 
     <section class="card">
-      <h2>Decision Logic</h2>
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Guardrails</p>
+          <h2>Decision Logic</h2>
+        </div>
+      </div>
       <table id="decisionTable"></table>
       <p id="decisionReason" class="reason"></p>
     </section>
 
     <section class="card full">
-      <h2>Top Analog Events</h2>
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Historical comparison</p>
+          <h2>Top Analog Events</h2>
+        </div>
+      </div>
       <div class="tableWrap">
         <table id="analogTable"></table>
       </div>
     </section>
 
-    <section class="card full">
-      <h2>Manual What-If Mode</h2>
-      <p class="small">This runs in your browser against the published analog database. Use it for quick scenario testing, not as the official autopilot output.</p>
-      <div class="manualGrid">
-        <label>Stage ft <input id="mStage" type="number" step="0.01"></label>
-        <label>H0 / rise-start stage ft <input id="mH0" type="number" step="0.01"></label>
-        <label>Elapsed hr <input id="mElapsed" type="number" step="0.1"></label>
-        <label>R1 ft/hr <input id="mR1" type="number" step="0.001"></label>
-        <label>R3 ft/hr <input id="mR3" type="number" step="0.001"></label>
-        <label>R6 ft/hr <input id="mR6" type="number" step="0.001"></label>
+    <section class="card full manualCard">
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Scenario testing</p>
+          <h2>Manual What-If Mode</h2>
+        </div>
       </div>
+
+      <p class="small">
+        Runs in your browser against the published analog database. Use this for quick scenario testing and
+        sanity checks. The live autopilot output above remains the baseline.
+      </p>
+
+      <div class="manualGrid">
+        <label>Stage ft <input id="mStage" type="number" step="0.01" placeholder="18.73"></label>
+        <label>H0 / rise-start stage ft <input id="mH0" type="number" step="0.01" placeholder="13.76"></label>
+        <label>Elapsed hr <input id="mElapsed" type="number" step="0.1" placeholder="6.0"></label>
+        <label>R1 ft/hr <input id="mR1" type="number" step="0.001" placeholder="0.47"></label>
+        <label>R3 ft/hr <input id="mR3" type="number" step="0.001" placeholder="0.54"></label>
+        <label>R6 ft/hr <input id="mR6" type="number" step="0.001" placeholder="0.83"></label>
+      </div>
+
       <div class="buttonRow">
-        <button id="fillManualBtn">Fill from current</button>
+        <button id="fillManualBtn" class="secondaryButton">Fill from current</button>
         <button id="runManualBtn">Run what-if</button>
       </div>
+
       <div id="manualOutput" class="manualOutput"></div>
+    </section>
+
+    <section class="card full">
+      <div class="sectionTitle">
+        <div>
+          <p class="eyebrow">Recent data</p>
+          <h2>Recent Hourly Stage</h2>
+        </div>
+      </div>
+      <div class="tableWrap compactTable">
+        <table id="recentStageTable"></table>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>Python = forecast brain. JSON = handoff. HTML = display. This is how we avoid JavaScript becoming a hydrology crime scene.</p>
+    <p>
+      Python = forecast brain. JSON = handoff. HTML = display. V3.1 uses a deceleration-aware
+      stage-floor limiter so elevated but flattening rises lean more on the P90 analog envelope.
+    </p>
   </footer>
 
   <script src="app.js"></script>
