@@ -20,14 +20,29 @@ function fmt(value, digits = 2) {
   return Number(value).toFixed(digits);
 }
 
+function shortTime(value) {
+  if (!value) return '—';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
+function crestBadgeClass(category = '') {
+  const c = category.toLowerCase();
+  if (c.includes('major')) return 'major';
+  if (c.includes('moderate')) return 'moderate';
+  if (c.includes('minor')) return 'minor';
+  return '';
+}
+
 function setStatus(message, isError = false) {
   const el = document.getElementById('statusMessage');
   el.textContent = message;
   el.className = isError ? 'notice bad' : 'notice';
 }
 
-function metric(label, value, sub = '') {
-  return `<div class="metric"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`;
+function metric(label, value, sub = '', primary = false) {
+  return `<div class="metric ${primary ? 'primaryMetric' : ''}"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`;
 }
 
 function rowsFromObject(obj, mapping) {
@@ -45,17 +60,21 @@ function renderForecast(data) {
   const analog = data.analog_forecast || {};
   const v3 = data.v3_decision || {};
 
+  const badge = document.getElementById('forecastBadge');
+  badge.textContent = `${fmt(headline.decision_crest_ft)} ft`;
+  badge.className = `badge ${crestBadgeClass(headline.crest_category || '')}`;
+
   document.getElementById('forecastGrid').innerHTML = [
-    metric('V3 decision crest', `${fmt(headline.decision_crest_ft)} ft`, headline.crest_category || ''),
-    metric('Most likely analog crest', `${fmt(headline.most_likely_crest_ft)} ft`, 'weighted mean analog'),
-    metric('Current stage', `${fmt(state.stage_ft)} ft`, data.valid_time_utc || ''),
+    metric('V3.1 decision crest', `${fmt(headline.decision_crest_ft)} ft`, headline.crest_category || '', true),
+    metric('Most likely analog', `${fmt(headline.most_likely_crest_ft)} ft`, 'weighted mean analog'),
+    metric('Current stage', `${fmt(state.stage_ft)} ft`, shortTime(data.valid_time_utc || state.valid_time_utc)),
     metric('Confidence', headline.confidence || '—', headline.method || ''),
   ].join('');
   document.getElementById('forecastGrid').classList.remove('hidden');
   setStatus(`Loaded ${data.gage?.name || 'forecast'} from ${data.source || 'unknown source'}`);
 
   document.getElementById('stateTable').innerHTML = rowsFromObject(state, [
-    ['Valid time UTC', 'valid_time_utc'],
+    ['Valid time', o => shortTime(o.valid_time_utc)],
     ['Stage', 'stage_ft', 2, ' ft'],
     ['H0 / rise-start stage', 'h0_stage_ft', 2, ' ft'],
     ['Rise so far', 'rise_so_far_ft', 2, ' ft'],
@@ -64,7 +83,7 @@ function renderForecast(data) {
     ['R3', 'r3_ft_per_hr', 3, ' ft/hr'],
     ['R6', 'r6_ft_per_hr', 3, ' ft/hr'],
     ['Momentum R1-R3', 'momentum_r1_minus_r3', 3, ' ft/hr'],
-    ['Rise start UTC', 'rise_start_time_utc'],
+    ['Rise start', o => shortTime(o.rise_start_time_utc)],
   ]);
 
   document.getElementById('decisionTable').innerHTML = rowsFromObject({ ...analog, ...v3 }, [
@@ -73,13 +92,16 @@ function renderForecast(data) {
     ['Most likely crest', 'most_likely_crest_ft', 2, ' ft'],
     ['Analog min/max', o => `${fmt(o.analog_min_ft)} / ${fmt(o.analog_max_ft)} ft`],
     ['P75 / P90 analog crest', o => `${fmt(o.p75_top_analog_ft)} / ${fmt(o.p90_top_analog_ft)} ft`],
-    ['V3 floor remaining', 'v3_floor_remaining_ft', 2, ' ft'],
+    ['Stage-floor remaining', 'v3_floor_remaining_ft', 2, ' ft'],
+    ['Stage-floor crest', 'v3_floor_crest_ft', 2, ' ft'],
+    ['Floor reason', 'v3_floor_reason'],
     ['V3 major flag', o => o.v3_major_potential_flag ? 'YES' : 'no'],
     ['Confidence', 'confidence'],
   ]);
   document.getElementById('decisionReason').textContent = v3.confidence_reason || v3.v3_major_potential_reason || '';
 
   renderAnalogTable(analog.top_analogs || [], 'analogTable');
+  renderRecentStage(data.recent_hourly_stage || []);
 }
 
 function renderAnalogTable(rows, tableId) {
@@ -95,7 +117,7 @@ function renderAnalogTable(rows, tableId) {
     <tbody>${rows.map(r => `
       <tr>
         <td>${r.event_id ?? ''}</td>
-        <td>${r.snapshot_datetime ?? ''}</td>
+        <td>${shortTime(r.snapshot_datetime)}</td>
         <td>${fmt(r.stage_ft)} ft</td>
         <td>${fmt(r.r1_ft_per_hr, 3)}</td>
         <td>${fmt(r.r3_ft_per_hr, 3)}</td>
@@ -105,6 +127,21 @@ function renderAnalogTable(rows, tableId) {
         <td>${fmt(r.score, 3)}</td>
       </tr>`).join('')}
     </tbody>`;
+}
+
+function renderRecentStage(rows) {
+  const table = document.getElementById('recentStageTable');
+  if (!table) return;
+  if (!rows.length) {
+    table.innerHTML = '<tr><td>No recent hourly stage data available.</td></tr>';
+    return;
+  }
+  const displayRows = [...rows].slice(-12).reverse();
+  table.innerHTML = `
+    <thead><tr><th>Time</th><th>Stage</th></tr></thead>
+    <tbody>${displayRows.map(r => `
+      <tr><td>${shortTime(r.datetime_utc)}</td><td>${fmt(r.stage_ft)} ft</td></tr>
+    `).join('')}</tbody>`;
 }
 
 async function loadForecast() {
@@ -160,6 +197,39 @@ function weightedMean(values, scores) {
   return num / den;
 }
 
+function v31TrendAdjustment(live) {
+  const s = live.stage_ft;
+  const r1 = live.r1_ft_per_hr;
+  const r3 = live.r3_ft_per_hr;
+  const r6 = live.r6_ft_per_hr;
+  const mom = live.momentum_r1_minus_r3;
+
+  if (r1 <= -0.05 && r3 <= 0.00 && r6 <= 0.05) {
+    return { cap: 0, reason: 'hydrograph has likely rolled over' };
+  }
+
+  const clearlyDecelerating = (mom <= -0.05) || (r6 - r1 >= 0.20 && r6 >= 0.30);
+  const weakening = clearlyDecelerating || (mom < 0.10) || (r6 - r1 >= 0.05 && r6 >= 0.30);
+  if (!weakening) return { cap: null, reason: 'no deceleration cap' };
+
+  if (s >= 18 && r6 >= 0.30) {
+    return clearlyDecelerating
+      ? { cap: 1.25, reason: 'high-stage clear deceleration cap' }
+      : { cap: 1.50, reason: 'high-stage weakening-rise cap' };
+  }
+  if (s >= 16 && r6 >= 0.40) {
+    return clearlyDecelerating
+      ? { cap: 2.00, reason: 'elevated-stage clear deceleration cap' }
+      : { cap: 2.50, reason: 'elevated-stage weakening-rise cap' };
+  }
+  if (s >= 14 && r6 >= 0.50) {
+    return clearlyDecelerating
+      ? { cap: 2.50, reason: 'mid-stage clear deceleration cap' }
+      : { cap: 3.50, reason: 'mid-stage weakening-rise cap' };
+  }
+  return { cap: null, reason: 'weakening detected but no floor cap needed' };
+}
+
 function applyV3(live, analog) {
   const s = live.stage_ft;
   const r1 = live.r1_ft_per_hr;
@@ -169,15 +239,21 @@ function applyV3(live, analog) {
   const mom = live.momentum_r1_minus_r3;
 
   let floor = 0;
-  if (r1 <= -0.05 && r3 <= 0.00 && r6 <= 0.05) floor = 0;
-  else {
-    if (s >= 12 && r6 >= 0.30 && e <= 36) floor = Math.max(floor, 3.0);
-    if (s >= 14 && r6 >= 0.20 && e <= 48) floor = Math.max(floor, 3.0);
-    if (s >= 16 && r6 >= 0.10 && e <= 60) floor = Math.max(floor, 2.5);
-    if (s >= 18 && r6 >= 0.05) floor = Math.max(floor, 1.5);
-    if (s >= 11 && r3 >= 0.60 && e <= 30) floor = Math.max(floor, 3.0);
-    if (s >= 12 && r1 >= 0.75 && mom >= 0.20 && e <= 30) floor = Math.max(floor, 3.5);
-    if (e > 48 && r6 < 0.15) floor = Math.min(floor, 1.5);
+  const floorReasons = [];
+  const adj = v31TrendAdjustment(live);
+
+  if (adj.cap === 0) {
+    floor = 0;
+    floorReasons.push(adj.reason);
+  } else {
+    if (s >= 12 && r6 >= 0.30 && e <= 36) { floor = Math.max(floor, 3.0); floorReasons.push('stage >=12 with strong 6-hr rise'); }
+    if (s >= 14 && r6 >= 0.20 && e <= 48) { floor = Math.max(floor, 3.0); floorReasons.push('stage >=14 with sustained rise'); }
+    if (s >= 16 && r6 >= 0.10 && e <= 60) { floor = Math.max(floor, 2.5); floorReasons.push('stage >=16 with persistent 6-hr rise'); }
+    if (s >= 18 && r6 >= 0.05) { floor = Math.max(floor, 1.5); floorReasons.push('stage >=18 and still rising'); }
+    if (s >= 11 && r3 >= 0.60 && e <= 30) { floor = Math.max(floor, 3.0); floorReasons.push('strong 3-hr rise while elevated'); }
+    if (s >= 12 && r1 >= 0.75 && mom >= 0.20 && e <= 30) { floor = Math.max(floor, 3.5); floorReasons.push('accelerating elevated rise'); }
+    if (e > 48 && r6 < 0.15) { floor = Math.min(floor, 1.5); floorReasons.push('late-event weak 6-hr rise taper'); }
+    if (adj.cap !== null) { floor = Math.min(floor, adj.cap); floorReasons.push(adj.reason); }
   }
 
   const reasons = [];
@@ -194,7 +270,7 @@ function applyV3(live, analog) {
   let method = 'P75_TOP_ANALOG_BASELINE';
   if (major) {
     decision = Math.max(decision, analog.p90_top_analog_ft, s + floor);
-    method = 'V3_MAJOR_POTENTIAL_P90_PLUS_STAGE_FLOOR';
+    method = floorReasons.join('; ').includes('cap') ? 'V3_1_DECEL_AWARE_P90_PLUS_STAGE_FLOOR' : 'V3_MAJOR_POTENTIAL_P90_PLUS_STAGE_FLOOR';
   }
   const spread = analog.analog_max_ft - Math.min(analog.most_likely_crest_ft, analog.p75_top_analog_ft);
   const confidence = major ? (spread >= 3 ? 'LOW' : 'MEDIUM') : (spread >= 4 ? 'LOW' : 'MEDIUM');
@@ -204,6 +280,8 @@ function applyV3(live, analog) {
     decision_method: method,
     confidence,
     v3_floor_remaining_ft: Number(floor.toFixed(2)),
+    v3_floor_crest_ft: Number((s + floor).toFixed(2)),
+    v3_floor_reason: [...new Set(floorReasons)].join('; ') || 'no stage-floor trigger',
     reason: major ? reasons.join('; ') : 'no V3 major-potential trigger',
   };
 }
@@ -268,11 +346,12 @@ async function runManual() {
   const result = runAnalogJs(live, db.rows || []);
   document.getElementById('manualOutput').innerHTML = `
     <div class="grid">
-      ${metric('Manual V3 decision crest', `${fmt(result.v3.decision_crest_ft)} ft`, result.v3.confidence)}
+      ${metric('Manual V3.1 decision crest', `${fmt(result.v3.decision_crest_ft)} ft`, result.v3.confidence, true)}
       ${metric('Manual most likely', `${fmt(result.analog.most_likely_crest_ft)} ft`, 'weighted mean')}
       ${metric('Manual P75 / P90', `${fmt(result.analog.p75_top_analog_ft)} / ${fmt(result.analog.p90_top_analog_ft)} ft`, 'top analogs')}
-      ${metric('V3 method', result.v3.decision_method, result.v3.reason)}
+      ${metric('Stage floor', `${fmt(result.v3.v3_floor_remaining_ft)} ft`, result.v3.v3_floor_reason)}
     </div>
+    <div class="reason"><strong>${result.v3.decision_method}</strong><br>${result.v3.reason}</div>
     <h3>Manual top analogs</h3>
     <div class="tableWrap"><table id="manualAnalogTable"></table></div>
   `;
