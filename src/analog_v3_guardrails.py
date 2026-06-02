@@ -30,20 +30,13 @@ def v3_trend_adjustment(
     r6_ft_per_hr: float,
     momentum_r1_minus_r3: float,
 ) -> tuple[float | None, str]:
-    """
-    Return an optional cap for the stage-floor remaining rise.
-
-    The cap only applies when the river is elevated and still rising but the
-    latest rise rate is weakening. This prevents a high-stage event that is
-    already flattening from being pushed too high solely by the stage floor.
-    """
+    """Return an optional cap for the stage-floor remaining rise."""
     s = _as_float(stage_ft)
     r1 = _as_float(r1_ft_per_hr)
     r3 = _as_float(r3_ft_per_hr)
     r6 = _as_float(r6_ft_per_hr)
     mom = _as_float(momentum_r1_minus_r3)
 
-    # True rollover: do not force any additional stage-floor rise.
     if r1 <= -0.05 and r3 <= 0.00 and r6 <= 0.05:
         return 0.0, "hydrograph has likely rolled over"
 
@@ -53,8 +46,6 @@ def v3_trend_adjustment(
     if not weakening:
         return None, "no deceleration cap"
 
-    # Once the river is already high, do not automatically add 3+ ft if the
-    # hydrograph is flattening. The P90 analog envelope still remains available.
     if s >= 18.0 and r6 >= 0.30:
         if clearly_decelerating:
             return 1.25, "high-stage clear deceleration cap"
@@ -81,13 +72,7 @@ def v3_remaining_rise_floor(
     elapsed_hr_since_rise_start: float,
     momentum_r1_minus_r3: float,
 ) -> tuple[float, str]:
-    """
-    Explainable stage-aware minimum remaining rise floor.
-
-    This is not a standalone forecast. It is a safety floor used only when the
-    river is elevated and still rising. V3.1 reduces this floor when the
-    hydrograph is elevated but clearly decelerating.
-    """
+    """Explainable stage-aware minimum remaining rise floor."""
     s = _as_float(stage_ft)
     r1 = _as_float(r1_ft_per_hr)
     r3 = _as_float(r3_ft_per_hr)
@@ -98,12 +83,10 @@ def v3_remaining_rise_floor(
     floor = 0.0
     floor_reasons: list[str] = []
 
-    # If the hydrograph has clearly rolled over, do not force extra rise.
     cap, cap_reason = v3_trend_adjustment(s, r1, r3, r6, mom)
     if cap == 0.0:
         return 0.0, cap_reason
 
-    # Strong early/mid-rise signals.
     if s >= 12.0 and r6 >= 0.30 and e <= 36:
         floor = max(floor, 3.0)
         floor_reasons.append("stage >=12 with strong 6-hr rise")
@@ -117,7 +100,6 @@ def v3_remaining_rise_floor(
         floor = max(floor, 1.5)
         floor_reasons.append("stage >=18 and still rising")
 
-    # Shorter-term acceleration. R1 alone is noisy, so require elevation/momentum.
     if s >= 11.0 and r3 >= 0.60 and e <= 30:
         floor = max(floor, 3.0)
         floor_reasons.append("strong 3-hr rise while elevated")
@@ -125,7 +107,6 @@ def v3_remaining_rise_floor(
         floor = max(floor, 3.5)
         floor_reasons.append("accelerating elevated rise")
 
-    # Late-event taper if still barely rising after a long duration.
     if e > 48 and r6 < 0.15:
         floor = min(floor, 1.5)
         floor_reasons.append("late-event weak 6-hr rise taper")
@@ -182,6 +163,30 @@ def v3_major_potential_flag(
     )
 
 
+def infer_hydrograph_state(
+    stage_ft: float,
+    r1_ft_per_hr: float,
+    r3_ft_per_hr: float,
+    r6_ft_per_hr: float,
+    elapsed_hr_since_rise_start: float,
+) -> str:
+    """Fallback state classifier for callers that do not pass hydrograph_state."""
+    s = _as_float(stage_ft)
+    r1 = _as_float(r1_ft_per_hr)
+    r3 = _as_float(r3_ft_per_hr)
+    r6 = _as_float(r6_ft_per_hr)
+    e = _as_float(elapsed_hr_since_rise_start)
+    if s < 12.0 and e <= 1.0 and r1 <= 0.0 and r3 <= 0.0 and r6 <= 0.0:
+        return "LOW_FLAT_FALLING"
+    if r1 <= 0.0 and r3 <= 0.0 and r6 <= 0.0:
+        return "FALLING_OR_RECESSION"
+    if s >= 12.0 and r6 >= 0.30:
+        return "ACTIVE_ELEVATED_RISE"
+    if r3 >= 0.30 or r6 >= 0.20 or (r1 >= 0.50 and r3 > 0.0):
+        return "ACTIVE_RISE"
+    return "WEAK_OR_UNCLEAR_RISE"
+
+
 def apply_v3_decision_logic(
     stage_ft: float,
     r1_ft_per_hr: float,
@@ -193,6 +198,7 @@ def apply_v3_decision_logic(
     p75_top_analog_ft: float,
     p90_top_analog_ft: float,
     analog_max_ft: float | None = None,
+    hydrograph_state: str | None = None,
 ) -> dict:
     """Compute V3.1 operational decision crest."""
     floor_remaining, floor_reason = v3_remaining_rise_floor(
@@ -216,23 +222,16 @@ def apply_v3_decision_logic(
         p90_top_analog_ft=p90_top_analog_ft,
     )
 
-    # Low/flat/falling is a hydrograph-only no-rise state. Without a rainfall
-    # or routed-flow forcing input, historical floods that later rose are not a
-    # valid crest forecast. Do not use the analog crest envelope here.
-    low_flat_falling = (
-        float(stage_ft) < 12.0
-        and float(elapsed_hr_since_rise_start) <= 1.0
-        and float(r1_ft_per_hr) <= 0.0
-        and float(r3_ft_per_hr) <= 0.0
-        and float(r6_ft_per_hr) <= 0.0
+    state = hydrograph_state or infer_hydrograph_state(
+        stage_ft, r1_ft_per_hr, r3_ft_per_hr, r6_ft_per_hr, elapsed_hr_since_rise_start
     )
+    analog_allowed_states = {"ACTIVE_RISE", "ACTIVE_ELEVATED_RISE"}
+    suppress_analog = state not in analog_allowed_states and not major_flag
 
-    if low_flat_falling and not major_flag:
+    if suppress_analog:
         decision = floor_crest
-        method = "LOW_STAGE_FLAT_FALLING_HYDROGRAPH_BASELINE"
+        method = f"{state}_HYDROGRAPH_BASELINE"
     else:
-        # Baseline: decision guidance should not fall below the 75th percentile of
-        # top analogs, but only when an actual rise signal exists.
         decision = max(float(most_likely_crest_ft), float(p75_top_analog_ft))
         method = "P75_TOP_ANALOG_BASELINE"
 
@@ -250,17 +249,20 @@ def apply_v3_decision_logic(
         confidence = "LOW" if spread is None or spread >= 3.0 else "MEDIUM"
         confidence_reason = (
             f"V3.1 major-potential trigger: {major_reason}; "
-            f"stage-floor={floor_remaining:.2f} ft ({floor_reason})"
+            f"stage-floor={floor_remaining:.2f} ft ({floor_reason}); state={state}"
         )
-    elif low_flat_falling:
-        confidence = "HIGH"
-        confidence_reason = "low stage with no active rise; analog crest envelope suppressed and decision held to current hydrograph baseline"
+    elif suppress_analog:
+        confidence = "HIGH" if state in {"LOW_FLAT_FALLING", "FALLING_OR_RECESSION"} else "MEDIUM"
+        confidence_reason = (
+            f"hydrograph_state={state}; analog crest guidance suppressed because no active rise signal is present; "
+            "decision held to current hydrograph/stage-floor baseline"
+        )
     elif spread is not None and spread >= 4.0:
         confidence = "LOW"
-        confidence_reason = f"large analog spread; {major_reason}"
+        confidence_reason = f"large analog spread; {major_reason}; state={state}"
     else:
         confidence = "MEDIUM"
-        confidence_reason = major_reason
+        confidence_reason = f"{major_reason}; state={state}"
 
     return {
         "decision_crest_ft": round(decision, 2),
@@ -272,4 +274,6 @@ def apply_v3_decision_logic(
         "v3_floor_reason": floor_reason,
         "v3_major_potential_flag": major_flag,
         "v3_major_potential_reason": major_reason,
+        "hydrograph_state": state,
+        "analog_guidance_suppressed": suppress_analog,
     }
