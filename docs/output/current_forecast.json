@@ -173,7 +173,11 @@
     "v3_major_potential_flag": false,
     "v3_major_potential_reason": "no V3 major-potential trigger",
     "hydrograph_state": "LOW_FLAT_FALLING",
-    "analog_guidance_suppressed": true
+    "analog_guidance_suppressed": true,
+    "near_crest_taper_remaining_cap_ft": null,
+    "near_crest_taper_crest_cap_ft": null,
+    "near_crest_taper_applied": false,
+    "near_crest_taper_reason": "near-crest taper not eligible below 16 ft"
   },
   "headline": {
     "decision_crest_ft": 9.13,
@@ -236,6 +240,7 @@
     "Decision-support only. This is not an official NWS river forecast.",
     "V3 decision crest intentionally leans conservative only when active/elevated rise signals are present.",
     "Flat/falling or weak/unclear states suppress analog crest guidance unless forcing data are added later.",
+    "Elevated near-crest taper caps additional rise when the creek is high and short-term rates collapse.",
     "Official AHPS/NWC/NWS guidance should remain the authoritative forecast source."
   ]
 }
