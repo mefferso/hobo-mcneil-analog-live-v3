@@ -123,10 +123,10 @@
     ]
   },
   "v3_decision": {
-    "decision_crest_ft": 17.46,
-    "decision_method": "P75_TOP_ANALOG_BASELINE",
+    "decision_crest_ft": 16.2,
+    "decision_method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY",
     "confidence": "MEDIUM",
-    "confidence_reason": "no V3 major-potential trigger",
+    "confidence_reason": "suppressed P75/P90 analog baseline because stage is low and flat/falling",
     "v3_floor_remaining_ft": 0.0,
     "v3_floor_crest_ft": 9.2,
     "v3_floor_reason": "no stage-floor trigger",
@@ -134,11 +134,11 @@
     "v3_major_potential_reason": "no V3 major-potential trigger"
   },
   "headline": {
-    "decision_crest_ft": 17.46,
+    "decision_crest_ft": 16.2,
     "most_likely_crest_ft": 16.2,
     "crest_category": "minor flood potential",
     "confidence": "MEDIUM",
-    "method": "P75_TOP_ANALOG_BASELINE"
+    "method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY"
   },
   "recent_hourly_stage": [
     {
