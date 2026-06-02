@@ -32,6 +32,7 @@ from config import (
 )
 from fetch_current_usgs import fetch_usgs_iv
 from hydro_features import build_features_from_stage_df, build_manual_features, read_stage_csv
+from regression_guidance import active_rise_regression_guidance
 
 
 def crest_category(stage: float) -> str:
@@ -95,6 +96,7 @@ def run(args: argparse.Namespace) -> dict:
         dedupe_by_event=not args.no_dedupe,
     )
     analog_dict = analog.to_dict()
+    regression = active_rise_regression_guidance(live)
 
     v3 = apply_v3_decision_logic(
         stage_ft=live["stage_ft"],
@@ -107,6 +109,7 @@ def run(args: argparse.Namespace) -> dict:
         p75_top_analog_ft=analog_dict["p75_top_analog_ft"],
         p90_top_analog_ft=analog_dict["p90_top_analog_ft"],
         analog_max_ft=analog_dict["analog_max_ft"],
+        hydrograph_state=live.get("hydrograph_state"),
     )
 
     decision = v3["decision_crest_ft"]
@@ -121,6 +124,7 @@ def run(args: argparse.Namespace) -> dict:
         "valid_time_utc": live["valid_time_utc"],
         "current_state": live,
         "analog_forecast": analog_dict,
+        "regression_guidance": regression,
         "v3_decision": v3,
         "headline": {
             "decision_crest_ft": decision,
@@ -132,7 +136,8 @@ def run(args: argparse.Namespace) -> dict:
         "recent_hourly_stage": hourly_rows,
         "notes": [
             "Decision-support only. This is not an official NWS river forecast.",
-            "V3 decision crest intentionally leans conservative when elevated/still-rising signals are present.",
+            "V3 decision crest intentionally leans conservative only when active/elevated rise signals are present.",
+            "Flat/falling or weak/unclear states suppress analog crest guidance unless forcing data are added later.",
             "Official AHPS/NWC/NWS guidance should remain the authoritative forecast source.",
         ],
     }
@@ -152,13 +157,17 @@ def write_outputs(payload: dict, out_dir: str | Path) -> None:
 
     one_line = {
         "valid_time_utc": payload["valid_time_utc"],
+        "hydrograph_state": payload["current_state"].get("hydrograph_state"),
         "current_stage_ft": payload["current_state"]["stage_ft"],
         "r1_ft_per_hr": payload["current_state"]["r1_ft_per_hr"],
         "r3_ft_per_hr": payload["current_state"]["r3_ft_per_hr"],
         "r6_ft_per_hr": payload["current_state"]["r6_ft_per_hr"],
+        "max_r3_so_far_ft_per_hr": payload["current_state"].get("max_r3_so_far_ft_per_hr"),
+        "max_r6_so_far_ft_per_hr": payload["current_state"].get("max_r6_so_far_ft_per_hr"),
         "momentum_r1_minus_r3": payload["current_state"]["momentum_r1_minus_r3"],
         "elapsed_hr_since_rise_start": payload["current_state"]["elapsed_hr_since_rise_start"],
         "most_likely_crest_ft": payload["analog_forecast"]["most_likely_crest_ft"],
+        "regression_projected_crest_ft": payload["regression_guidance"].get("projected_crest_ft"),
         "decision_crest_v3_ft": payload["v3_decision"]["decision_crest_ft"],
         "confidence": payload["v3_decision"]["confidence"],
         "decision_method": payload["v3_decision"]["decision_method"],
