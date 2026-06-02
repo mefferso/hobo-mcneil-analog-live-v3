@@ -137,10 +137,10 @@
     ]
   },
   "v3_decision": {
-    "decision_crest_ft": 17.41,
-    "decision_method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY",
-    "confidence": "MEDIUM",
-    "confidence_reason": "suppressed P75/P90 analog baseline because stage is low and flat/falling",
+    "decision_crest_ft": 9.2,
+    "decision_method": "LOW_STAGE_FLAT_FALLING_HYDROGRAPH_BASELINE",
+    "confidence": "HIGH",
+    "confidence_reason": "low stage with no active rise; analog crest envelope suppressed and decision held to current hydrograph baseline",
     "v3_floor_remaining_ft": 0.0,
     "v3_floor_crest_ft": 9.2,
     "v3_floor_reason": "no stage-floor trigger",
@@ -148,11 +148,11 @@
     "v3_major_potential_reason": "no V3 major-potential trigger"
   },
   "headline": {
-    "decision_crest_ft": 17.41,
+    "decision_crest_ft": 9.2,
     "most_likely_crest_ft": 17.41,
-    "crest_category": "minor flood potential",
-    "confidence": "MEDIUM",
-    "method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY"
+    "crest_category": "below flood stage",
+    "confidence": "HIGH",
+    "method": "LOW_STAGE_FLAT_FALLING_HYDROGRAPH_BASELINE"
   },
   "recent_hourly_stage": [
     {
