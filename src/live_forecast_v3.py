@@ -110,6 +110,8 @@ def run(args: argparse.Namespace) -> dict:
         p90_top_analog_ft=analog_dict["p90_top_analog_ft"],
         analog_max_ft=analog_dict["analog_max_ft"],
         hydrograph_state=live.get("hydrograph_state"),
+        max_r3_so_far_ft_per_hr=live.get("max_r3_so_far_ft_per_hr"),
+        max_r6_so_far_ft_per_hr=live.get("max_r6_so_far_ft_per_hr"),
     )
 
     decision = v3["decision_crest_ft"]
@@ -138,6 +140,7 @@ def run(args: argparse.Namespace) -> dict:
             "Decision-support only. This is not an official NWS river forecast.",
             "V3 decision crest intentionally leans conservative only when active/elevated rise signals are present.",
             "Flat/falling or weak/unclear states suppress analog crest guidance unless forcing data are added later.",
+            "Elevated near-crest taper caps additional rise when the creek is high and short-term rates collapse.",
             "Official AHPS/NWC/NWS guidance should remain the authoritative forecast source.",
         ],
     }
@@ -169,6 +172,8 @@ def write_outputs(payload: dict, out_dir: str | Path) -> None:
         "most_likely_crest_ft": payload["analog_forecast"]["most_likely_crest_ft"],
         "regression_projected_crest_ft": payload["regression_guidance"].get("projected_crest_ft"),
         "decision_crest_v3_ft": payload["v3_decision"]["decision_crest_ft"],
+        "near_crest_taper_applied": payload["v3_decision"].get("near_crest_taper_applied"),
+        "near_crest_taper_cap_ft": payload["v3_decision"].get("near_crest_taper_crest_cap_ft"),
         "confidence": payload["v3_decision"]["confidence"],
         "decision_method": payload["v3_decision"]["decision_method"],
     }
