@@ -11,13 +11,19 @@ import pandas as pd
 
 
 # feature, weight, scale. Scale is roughly "one meaningful difference".
+# R3/R6 carry more signal than noisy R1. Peak-so-far rates matter during an
+# active rise because the latest rate may already be decelerating after the main
+# surge has revealed event volume/momentum.
 FEATURE_WEIGHTS: list[tuple[str, float, float]] = [
     ("stage_ft", 1.35, 2.00),
     ("rise_so_far_ft", 1.20, 2.00),
-    ("r1_ft_per_hr", 0.90, 0.70),
-    ("r3_ft_per_hr", 1.45, 0.55),
-    ("r6_ft_per_hr", 1.35, 0.40),
-    ("momentum_r1_minus_r3", 0.80, 0.45),
+    ("r1_ft_per_hr", 0.60, 0.70),
+    ("r3_ft_per_hr", 1.70, 0.50),
+    ("r6_ft_per_hr", 1.60, 0.35),
+    ("max_r3_so_far_ft_per_hr", 1.15, 0.50),
+    ("max_r6_so_far_ft_per_hr", 1.00, 0.35),
+    ("max_accel_3hr_so_far", 0.55, 0.30),
+    ("momentum_r1_minus_r3", 0.70, 0.45),
     ("elapsed_hr_since_rise_start", 0.85, 10.00),
     ("h0_stage_ft", 0.45, 2.50),
 ]
@@ -89,10 +95,21 @@ def load_analog_snapshots(path: str | Path) -> pd.DataFrame:
     if "h0_stage_ft" not in df.columns:
         df["h0_stage_ft"] = np.nan
 
+    # These peak-so-far fields are preferred, but older snapshot databases do not
+    # have them. Use the instantaneous values as a safe fallback so the matcher
+    # stays backward-compatible until the historical DB is rebuilt.
+    fallback_pairs = {
+        "max_r1_so_far_ft_per_hr": "r1_ft_per_hr",
+        "max_r3_so_far_ft_per_hr": "r3_ft_per_hr",
+        "max_r6_so_far_ft_per_hr": "r6_ft_per_hr",
+        "max_accel_3hr_so_far": "momentum_r1_minus_r3",
+    }
+    for dest, src in fallback_pairs.items():
+        if dest not in df.columns:
+            df[dest] = pd.to_numeric(df[src], errors="coerce").clip(lower=0.0)
+
     # Forecast from an analog snapshot should use remaining rise from that
     # snapshot, not the event's absolute crest pasted onto every snapshot.
-    # Otherwise low/falling recession snapshots from a past flood still look like
-    # they are about to crest at the event maximum. That is the dumb behavior.
     if "remaining_rise_ft" in df.columns:
         df["analog_remaining_rise_ft"] = pd.to_numeric(df["remaining_rise_ft"], errors="coerce")
     else:
@@ -184,6 +201,8 @@ def summarize_analogs(top: pd.DataFrame, current_stage_ft: float) -> AnalogForec
             "r1_ft_per_hr": round(float(r.get("r1_ft_per_hr", np.nan)), 3),
             "r3_ft_per_hr": round(float(r.get("r3_ft_per_hr", np.nan)), 3),
             "r6_ft_per_hr": round(float(r.get("r6_ft_per_hr", np.nan)), 3),
+            "max_r3_so_far_ft_per_hr": round(float(r.get("max_r3_so_far_ft_per_hr", np.nan)), 3),
+            "max_r6_so_far_ft_per_hr": round(float(r.get("max_r6_so_far_ft_per_hr", np.nan)), 3),
             "momentum_r1_minus_r3": round(float(r.get("momentum_r1_minus_r3", np.nan)), 3),
             "elapsed_hr_since_rise_start": None if pd.isna(r.get("elapsed_hr_since_rise_start")) else round(float(r.get("elapsed_hr_since_rise_start")), 2),
             "observed_crest_ft": round(float(r.get("analog_crest_ft", np.nan)), 2),
