@@ -216,8 +216,9 @@ def apply_v3_decision_logic(
         p90_top_analog_ft=p90_top_analog_ft,
     )
 
-    # Do not let old high-crest analogs dominate when the creek is low and flat/falling.
-    # In that state, the P75/P90 absolute analog crest baseline is not hydrologically valid.
+    # Low/flat/falling is a hydrograph-only no-rise state. Without a rainfall
+    # or routed-flow forcing input, historical floods that later rose are not a
+    # valid crest forecast. Do not use the analog crest envelope here.
     low_flat_falling = (
         float(stage_ft) < 12.0
         and float(elapsed_hr_since_rise_start) <= 1.0
@@ -225,10 +226,10 @@ def apply_v3_decision_logic(
         and float(r3_ft_per_hr) <= 0.0
         and float(r6_ft_per_hr) <= 0.0
     )
-    
+
     if low_flat_falling and not major_flag:
-        decision = float(most_likely_crest_ft)
-        method = "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY"
+        decision = floor_crest
+        method = "LOW_STAGE_FLAT_FALLING_HYDROGRAPH_BASELINE"
     else:
         # Baseline: decision guidance should not fall below the 75th percentile of
         # top analogs, but only when an actual rise signal exists.
@@ -251,12 +252,12 @@ def apply_v3_decision_logic(
             f"V3.1 major-potential trigger: {major_reason}; "
             f"stage-floor={floor_remaining:.2f} ft ({floor_reason})"
         )
+    elif low_flat_falling:
+        confidence = "HIGH"
+        confidence_reason = "low stage with no active rise; analog crest envelope suppressed and decision held to current hydrograph baseline"
     elif spread is not None and spread >= 4.0:
         confidence = "LOW"
         confidence_reason = f"large analog spread; {major_reason}"
-    elif low_flat_falling:
-        confidence = "MEDIUM"
-        confidence_reason = "suppressed P75/P90 analog baseline because stage is low and flat/falling"
     else:
         confidence = "MEDIUM"
         confidence_reason = major_reason
