@@ -21,6 +21,7 @@ KEEP_COLUMNS = [
     "momentum_r1_minus_r3",
     "elapsed_hr_since_rise_start",
     "analog_crest_ft",
+    "analog_remaining_rise_ft",
 ]
 
 
@@ -34,7 +35,6 @@ def main() -> None:
     keep = [c for c in KEEP_COLUMNS if c in df.columns]
     out_df = df[keep].copy()
 
-    # Round floats to keep the published JSON reasonable.
     for c in out_df.select_dtypes(include="number").columns:
         out_df[c] = out_df[c].round(4)
 
