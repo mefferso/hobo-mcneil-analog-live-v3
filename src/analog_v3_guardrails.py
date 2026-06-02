@@ -216,10 +216,24 @@ def apply_v3_decision_logic(
         p90_top_analog_ft=p90_top_analog_ft,
     )
 
-    # Baseline: decision guidance should not fall below the 75th percentile of
-    # top analogs. This is a modest safety move even outside major triggers.
-    decision = max(float(most_likely_crest_ft), float(p75_top_analog_ft))
-    method = "P75_TOP_ANALOG_BASELINE"
+    # Do not let old high-crest analogs dominate when the creek is low and flat/falling.
+    # In that state, the P75/P90 absolute analog crest baseline is not hydrologically valid.
+    low_flat_falling = (
+        float(stage_ft) < 12.0
+        and float(elapsed_hr_since_rise_start) <= 1.0
+        and float(r1_ft_per_hr) <= 0.0
+        and float(r3_ft_per_hr) <= 0.0
+        and float(r6_ft_per_hr) <= 0.0
+    )
+    
+    if low_flat_falling and not major_flag:
+        decision = float(most_likely_crest_ft)
+        method = "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY"
+    else:
+        # Baseline: decision guidance should not fall below the 75th percentile of
+        # top analogs, but only when an actual rise signal exists.
+        decision = max(float(most_likely_crest_ft), float(p75_top_analog_ft))
+        method = "P75_TOP_ANALOG_BASELINE"
 
     if major_flag:
         decision = max(decision, float(p90_top_analog_ft), floor_crest)
@@ -240,6 +254,9 @@ def apply_v3_decision_logic(
     elif spread is not None and spread >= 4.0:
         confidence = "LOW"
         confidence_reason = f"large analog spread; {major_reason}"
+    elif low_flat_falling:
+        confidence = "MEDIUM"
+        confidence_reason = "suppressed P75/P90 analog baseline because stage is low and flat/falling"
     else:
         confidence = "MEDIUM"
         confidence_reason = major_reason
