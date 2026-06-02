@@ -21,12 +21,12 @@
     "rise_start_time_utc": "2026-06-01T23:00:00+00:00"
   },
   "analog_forecast": {
-    "most_likely_crest_ft": 16.2,
-    "analog_min_ft": 9.32,
-    "analog_max_ft": 19.55,
-    "median_top_analog_ft": 16.55,
-    "p75_top_analog_ft": 17.46,
-    "p90_top_analog_ft": 18.5,
+    "most_likely_crest_ft": 17.41,
+    "analog_min_ft": 15.71,
+    "analog_max_ft": 18.73,
+    "median_top_analog_ft": 18.3,
+    "p75_top_analog_ft": 18.47,
+    "p90_top_analog_ft": 18.6,
     "num_analogs": 7,
     "top_analogs": [
       {
@@ -40,6 +40,8 @@
         "momentum_r1_minus_r3": -0.018,
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 16.21,
+        "analog_remaining_rise_ft": 7.01,
+        "projected_crest_ft": 16.2,
         "score": 1.912
       },
       {
@@ -53,6 +55,8 @@
         "momentum_r1_minus_r3": -0.022,
         "elapsed_hr_since_rise_start": 5.0,
         "observed_crest_ft": 17.12,
+        "analog_remaining_rise_ft": 6.51,
+        "projected_crest_ft": 15.71,
         "score": 2.025
       },
       {
@@ -66,6 +70,8 @@
         "momentum_r1_minus_r3": 0.091,
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 19.55,
+        "analog_remaining_rise_ft": 9.53,
+        "projected_crest_ft": 18.73,
         "score": 2.248
       },
       {
@@ -79,6 +85,8 @@
         "momentum_r1_minus_r3": 0.11,
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 17.8,
+        "analog_remaining_rise_ft": 9.1,
+        "projected_crest_ft": 18.3,
         "score": 2.365
       },
       {
@@ -92,6 +100,8 @@
         "momentum_r1_minus_r3": 0.034,
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 9.32,
+        "analog_remaining_rise_ft": 9.23,
+        "projected_crest_ft": 18.43,
         "score": 2.436
       },
       {
@@ -105,6 +115,8 @@
         "momentum_r1_minus_r3": 0.183,
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 15.86,
+        "analog_remaining_rise_ft": 8.07,
+        "projected_crest_ft": 17.27,
         "score": 2.614
       },
       {
@@ -118,12 +130,14 @@
         "momentum_r1_minus_r3": -0.005,
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 16.55,
+        "analog_remaining_rise_ft": 9.31,
+        "projected_crest_ft": 18.52,
         "score": 2.735
       }
     ]
   },
   "v3_decision": {
-    "decision_crest_ft": 16.2,
+    "decision_crest_ft": 17.41,
     "decision_method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY",
     "confidence": "MEDIUM",
     "confidence_reason": "suppressed P75/P90 analog baseline because stage is low and flat/falling",
@@ -134,8 +148,8 @@
     "v3_major_potential_reason": "no V3 major-potential trigger"
   },
   "headline": {
-    "decision_crest_ft": 16.2,
-    "most_likely_crest_ft": 16.2,
+    "decision_crest_ft": 17.41,
+    "most_likely_crest_ft": 17.41,
     "crest_category": "minor flood potential",
     "confidence": "MEDIUM",
     "method": "LOW_STAGE_FLAT_FALLING_ANALOG_ONLY"
