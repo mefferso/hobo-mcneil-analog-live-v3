@@ -187,6 +187,52 @@ def infer_hydrograph_state(
     return "WEAK_OR_UNCLEAR_RISE"
 
 
+def near_crest_taper_cap(
+    stage_ft: float,
+    r1_ft_per_hr: float,
+    r3_ft_per_hr: float,
+    r6_ft_per_hr: float,
+    max_r3_so_far_ft_per_hr: float | None = None,
+    max_r6_so_far_ft_per_hr: float | None = None,
+) -> tuple[float | None, str]:
+    """
+    Cap remaining rise when the creek is elevated and current rise rates have collapsed.
+
+    This targets the backtest failure mode where analog/P90 guidance kept pushing
+    20-23 ft crests even after the hydrograph was already flattening near the peak.
+    """
+    s = _as_float(stage_ft)
+    r1 = _as_float(r1_ft_per_hr)
+    r3 = _as_float(r3_ft_per_hr)
+    r6 = _as_float(r6_ft_per_hr)
+    max_r3 = _as_float(max_r3_so_far_ft_per_hr, max(0.0, r3))
+    max_r6 = _as_float(max_r6_so_far_ft_per_hr, max(0.0, r6))
+
+    if s < 16.0:
+        return None, "near-crest taper not eligible below 16 ft"
+
+    prior_momentum = max_r3 >= 0.45 or max_r6 >= 0.30
+    if not prior_momentum:
+        return None, "near-crest taper not eligible without prior rise momentum"
+
+    # Hard flattening: very little current rise left, even though the event had
+    # real earlier momentum. This should override high analog envelopes.
+    if r1 <= 0.05 and r3 <= 0.15 and r6 <= 0.35:
+        return 0.75, "hard near-crest flattening taper"
+
+    # Softer taper for the 1-3 hours before crest, when hourly rise is small and
+    # the 3/6-hour windows are already weakening.
+    if r1 <= 0.12 and r3 <= 0.22 and r6 <= 0.50:
+        return 1.50, "near-crest weakening taper"
+
+    # At moderate/major levels, even a slightly stronger 6-hour rate can still be
+    # flattening enough to stop using a 3+ ft high-side analog envelope.
+    if s >= 19.0 and r1 <= 0.12 and r3 <= 0.25 and r6 <= 0.60:
+        return 1.75, "high-stage near-crest taper"
+
+    return None, "no near-crest taper trigger"
+
+
 def apply_v3_decision_logic(
     stage_ft: float,
     r1_ft_per_hr: float,
@@ -199,6 +245,8 @@ def apply_v3_decision_logic(
     p90_top_analog_ft: float,
     analog_max_ft: float | None = None,
     hydrograph_state: str | None = None,
+    max_r3_so_far_ft_per_hr: float | None = None,
+    max_r6_so_far_ft_per_hr: float | None = None,
 ) -> dict:
     """Compute V3.1 operational decision crest."""
     floor_remaining, floor_reason = v3_remaining_rise_floor(
@@ -241,6 +289,23 @@ def apply_v3_decision_logic(
         if "cap" in floor_reason:
             method = "V3_1_DECEL_AWARE_P90_PLUS_STAGE_FLOOR"
 
+    taper_remaining, taper_reason = near_crest_taper_cap(
+        stage_ft=stage_ft,
+        r1_ft_per_hr=r1_ft_per_hr,
+        r3_ft_per_hr=r3_ft_per_hr,
+        r6_ft_per_hr=r6_ft_per_hr,
+        max_r3_so_far_ft_per_hr=max_r3_so_far_ft_per_hr,
+        max_r6_so_far_ft_per_hr=max_r6_so_far_ft_per_hr,
+    )
+    taper_crest = None
+    taper_applied = False
+    if taper_remaining is not None and not suppress_analog:
+        taper_crest = float(stage_ft) + float(taper_remaining)
+        if decision > taper_crest:
+            decision = taper_crest
+            taper_applied = True
+            method = f"{method}_NEAR_CREST_TAPER"
+
     spread = None
     if analog_max_ft is not None:
         spread = float(analog_max_ft) - min(float(most_likely_crest_ft), float(p75_top_analog_ft))
@@ -264,6 +329,9 @@ def apply_v3_decision_logic(
         confidence = "MEDIUM"
         confidence_reason = f"{major_reason}; state={state}"
 
+    if taper_applied:
+        confidence_reason = f"{confidence_reason}; near-crest taper applied: {taper_reason}"
+
     return {
         "decision_crest_ft": round(decision, 2),
         "decision_method": method,
@@ -276,4 +344,8 @@ def apply_v3_decision_logic(
         "v3_major_potential_reason": major_reason,
         "hydrograph_state": state,
         "analog_guidance_suppressed": suppress_analog,
+        "near_crest_taper_remaining_cap_ft": None if taper_remaining is None else round(taper_remaining, 2),
+        "near_crest_taper_crest_cap_ft": None if taper_crest is None else round(taper_crest, 2),
+        "near_crest_taper_applied": taper_applied,
+        "near_crest_taper_reason": taper_reason,
     }
