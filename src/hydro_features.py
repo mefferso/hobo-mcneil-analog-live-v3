@@ -22,6 +22,11 @@ class HydroFeatures:
     r3_ft_per_hr: float
     r6_ft_per_hr: float
     momentum_r1_minus_r3: float
+    max_r1_so_far_ft_per_hr: float
+    max_r3_so_far_ft_per_hr: float
+    max_r6_so_far_ft_per_hr: float
+    max_accel_3hr_so_far: float
+    hydrograph_state: str
     rise_start_time_utc: str
 
     def to_dict(self) -> dict:
@@ -84,6 +89,33 @@ def _stage_hours_ago(hourly: pd.Series, latest_time: pd.Timestamp, hours: int) -
     return float(val)
 
 
+def classify_hydrograph_state(
+    stage_ft: float,
+    rise_so_far_ft: float,
+    elapsed_hr_since_rise_start: float,
+    r1_ft_per_hr: float,
+    r3_ft_per_hr: float,
+    r6_ft_per_hr: float,
+) -> str:
+    """Classify the current hydrograph into decision-logic states."""
+    s = float(stage_ft)
+    rise = float(rise_so_far_ft)
+    e = float(elapsed_hr_since_rise_start)
+    r1 = float(r1_ft_per_hr)
+    r3 = float(r3_ft_per_hr)
+    r6 = float(r6_ft_per_hr)
+
+    if s < 12.0 and rise <= 0.25 and e <= 1.0 and r1 <= 0.0 and r3 <= 0.0 and r6 <= 0.0:
+        return "LOW_FLAT_FALLING"
+    if r1 <= 0.0 and r3 <= 0.0 and r6 <= 0.0:
+        return "FALLING_OR_RECESSION"
+    if s >= 12.0 and r6 >= 0.30:
+        return "ACTIVE_ELEVATED_RISE"
+    if r3 >= 0.30 or r6 >= 0.20 or (r1 >= 0.50 and r3 > 0.0):
+        return "ACTIVE_RISE"
+    return "WEAK_OR_UNCLEAR_RISE"
+
+
 def detect_rise_start(
     hourly: pd.Series,
     lookback_hours: int = RISE_LOOKBACK_HOURS,
@@ -134,6 +166,37 @@ def detect_rise_start(
     return start_time, h0, elapsed
 
 
+def peak_rate_features_since_start(
+    hourly: pd.Series,
+    rise_start_time: pd.Timestamp,
+) -> dict[str, float]:
+    """Return max R1/R3/R6 and max 3-hr acceleration since the detected rise start."""
+    hourly = hourly.dropna().sort_index().astype(float)
+    rates = pd.DataFrame({
+        "r1": hourly.diff(1),
+        "r3": hourly.diff(3) / 3.0,
+        "r6": hourly.diff(6) / 6.0,
+    })
+    rates["accel3"] = rates["r3"].diff(1)
+
+    active = rates[rates.index >= rise_start_time]
+    if active.empty:
+        active = rates.tail(1)
+
+    def _positive_max(series: pd.Series) -> float:
+        value = series.max(skipna=True)
+        if pd.isna(value):
+            return 0.0
+        return max(0.0, float(value))
+
+    return {
+        "max_r1_so_far_ft_per_hr": _positive_max(active["r1"]),
+        "max_r3_so_far_ft_per_hr": _positive_max(active["r3"]),
+        "max_r6_so_far_ft_per_hr": _positive_max(active["r6"]),
+        "max_accel_3hr_so_far": _positive_max(active["accel3"]),
+    }
+
+
 def build_features_from_stage_df(df: pd.DataFrame) -> tuple[HydroFeatures, pd.Series]:
     """Return current features and the hourly stage series used to compute them."""
     hourly = to_hourly_stage_series(df)
@@ -154,6 +217,8 @@ def build_features_from_stage_df(df: pd.DataFrame) -> tuple[HydroFeatures, pd.Se
 
     rise_start_time, h0, elapsed = detect_rise_start(hourly)
     rise_so_far = max(0.0, current - h0)
+    peak_rates = peak_rate_features_since_start(hourly, rise_start_time)
+    hydrograph_state = classify_hydrograph_state(current, rise_so_far, elapsed, r1, r3, r6)
 
     features = HydroFeatures(
         valid_time_utc=latest_time.isoformat(),
@@ -166,6 +231,11 @@ def build_features_from_stage_df(df: pd.DataFrame) -> tuple[HydroFeatures, pd.Se
         r3_ft_per_hr=round(r3, 3),
         r6_ft_per_hr=round(r6, 3),
         momentum_r1_minus_r3=round(momentum, 3),
+        max_r1_so_far_ft_per_hr=round(peak_rates["max_r1_so_far_ft_per_hr"], 3),
+        max_r3_so_far_ft_per_hr=round(peak_rates["max_r3_so_far_ft_per_hr"], 3),
+        max_r6_so_far_ft_per_hr=round(peak_rates["max_r6_so_far_ft_per_hr"], 3),
+        max_accel_3hr_so_far=round(peak_rates["max_accel_3hr_so_far"], 3),
+        hydrograph_state=hydrograph_state,
         rise_start_time_utc=rise_start_time.isoformat(),
     )
     return features, hourly
@@ -187,6 +257,14 @@ def build_manual_features(
     if momentum_r1_minus_r3 is None:
         momentum_r1_minus_r3 = float(r1_ft_per_hr) - float(r3_ft_per_hr)
     rise_so_far = max(0.0, float(stage_ft) - float(h0_stage_ft))
+    hydrograph_state = classify_hydrograph_state(
+        stage_ft=float(stage_ft),
+        rise_so_far_ft=rise_so_far,
+        elapsed_hr_since_rise_start=float(elapsed_hr_since_rise_start),
+        r1_ft_per_hr=float(r1_ft_per_hr),
+        r3_ft_per_hr=float(r3_ft_per_hr),
+        r6_ft_per_hr=float(r6_ft_per_hr),
+    )
     return HydroFeatures(
         valid_time_utc=valid_time_utc,
         current_stage_ft=round(float(stage_ft), 2),
@@ -198,5 +276,10 @@ def build_manual_features(
         r3_ft_per_hr=round(float(r3_ft_per_hr), 3),
         r6_ft_per_hr=round(float(r6_ft_per_hr), 3),
         momentum_r1_minus_r3=round(float(momentum_r1_minus_r3), 3),
+        max_r1_so_far_ft_per_hr=round(max(0.0, float(r1_ft_per_hr)), 3),
+        max_r3_so_far_ft_per_hr=round(max(0.0, float(r3_ft_per_hr)), 3),
+        max_r6_so_far_ft_per_hr=round(max(0.0, float(r6_ft_per_hr)), 3),
+        max_accel_3hr_so_far=round(max(0.0, float(momentum_r1_minus_r3)), 3),
+        hydrograph_state=hydrograph_state,
         rise_start_time_utc="manual",
     )
