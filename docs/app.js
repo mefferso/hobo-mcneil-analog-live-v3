@@ -266,14 +266,32 @@ function applyV3(live, analog) {
   if (analog.analog_max_ft >= 22 && analog.p90_top_analog_ft >= 21 && s >= 12 && r6 >= 0.10) reasons.push('major analog present in upper envelope');
 
   const major = reasons.length > 0;
-  let decision = Math.max(analog.most_likely_crest_ft, analog.p75_top_analog_ft);
-  let method = 'P75_TOP_ANALOG_BASELINE';
+
+  const lowFlatFalling =
+    s < 12 &&
+    e <= 1 &&
+    r1 <= 0 &&
+    r3 <= 0 &&
+    r6 <= 0;
+  
+  let decision;
+  let method;
+  
+  if (lowFlatFalling && !major) {
+    decision = analog.most_likely_crest_ft;
+    method = 'LOW_STAGE_FLAT_FALLING_ANALOG_ONLY';
+  } else {
+    decision = Math.max(analog.most_likely_crest_ft, analog.p75_top_analog_ft);
+    method = 'P75_TOP_ANALOG_BASELINE';
+  }
   if (major) {
     decision = Math.max(decision, analog.p90_top_analog_ft, s + floor);
     method = floorReasons.join('; ').includes('cap') ? 'V3_1_DECEL_AWARE_P90_PLUS_STAGE_FLOOR' : 'V3_MAJOR_POTENTIAL_P90_PLUS_STAGE_FLOOR';
   }
   const spread = analog.analog_max_ft - Math.min(analog.most_likely_crest_ft, analog.p75_top_analog_ft);
-  const confidence = major ? (spread >= 3 ? 'LOW' : 'MEDIUM') : (spread >= 4 ? 'LOW' : 'MEDIUM');
+  const confidence = major
+    ? (spread >= 3 ? 'LOW' : 'MEDIUM')
+    : (lowFlatFalling ? 'MEDIUM' : (spread >= 4 ? 'LOW' : 'MEDIUM'));
 
   return {
     decision_crest_ft: Number(decision.toFixed(2)),
@@ -282,7 +300,11 @@ function applyV3(live, analog) {
     v3_floor_remaining_ft: Number(floor.toFixed(2)),
     v3_floor_crest_ft: Number((s + floor).toFixed(2)),
     v3_floor_reason: [...new Set(floorReasons)].join('; ') || 'no stage-floor trigger',
-    reason: major ? reasons.join('; ') : 'no V3 major-potential trigger',
+    reason: major
+    ? reasons.join('; ')
+    : (lowFlatFalling
+        ? 'suppressed P75/P90 analog baseline because stage is low and flat/falling'
+        : 'no V3 major-potential trigger'),
   };
 }
 
