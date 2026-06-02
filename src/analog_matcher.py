@@ -89,12 +89,32 @@ def load_analog_snapshots(path: str | Path) -> pd.DataFrame:
     if "h0_stage_ft" not in df.columns:
         df["h0_stage_ft"] = np.nan
 
-    numeric_cols = [c for c, _, _ in FEATURE_WEIGHTS] + ["analog_crest_ft"]
+    # Forecast from an analog snapshot should use remaining rise from that
+    # snapshot, not the event's absolute crest pasted onto every snapshot.
+    # Otherwise low/falling recession snapshots from a past flood still look like
+    # they are about to crest at the event maximum. That is the dumb behavior.
+    if "remaining_rise_ft" in df.columns:
+        df["analog_remaining_rise_ft"] = pd.to_numeric(df["remaining_rise_ft"], errors="coerce")
+    else:
+        df["analog_remaining_rise_ft"] = df["analog_crest_ft"] - pd.to_numeric(df["stage_ft"], errors="coerce")
+
+    # If the snapshot is at or after the observed peak time, there is no future
+    # remaining rise for that analog, even if crest minus current stage is still
+    # positive on the recession limb.
+    if "observed_peak_datetime_utc" in df.columns:
+        snapshot_dt = pd.to_datetime(df["snapshot_datetime"], errors="coerce", utc=True)
+        peak_dt = pd.to_datetime(df["observed_peak_datetime_utc"], errors="coerce", utc=True)
+        after_peak = snapshot_dt.notna() & peak_dt.notna() & (snapshot_dt >= peak_dt)
+        df.loc[after_peak, "analog_remaining_rise_ft"] = 0.0
+
+    numeric_cols = [c for c, _, _ in FEATURE_WEIGHTS] + ["analog_crest_ft", "analog_remaining_rise_ft"]
     for c in numeric_cols:
         if c in df.columns:
             df[c] = pd.to_numeric(df[c], errors="coerce")
 
-    df = df.dropna(subset=["event_id", "stage_ft", "r1_ft_per_hr", "r3_ft_per_hr", "r6_ft_per_hr", "analog_crest_ft"])
+    df["analog_remaining_rise_ft"] = df["analog_remaining_rise_ft"].clip(lower=0.0)
+
+    df = df.dropna(subset=["event_id", "stage_ft", "r1_ft_per_hr", "r3_ft_per_hr", "r6_ft_per_hr", "analog_crest_ft", "analog_remaining_rise_ft"])
     if df.empty:
         raise ValueError("Analog CSV loaded, but no usable rows remained after cleaning")
 
@@ -139,19 +159,23 @@ def find_top_analogs(
     return df.head(top_n_events).reset_index(drop=True)
 
 
-def summarize_analogs(top: pd.DataFrame) -> AnalogForecast:
+def summarize_analogs(top: pd.DataFrame, current_stage_ft: float) -> AnalogForecast:
     if top.empty:
         raise ValueError("No analogs found")
 
-    crests = top["analog_crest_ft"].astype(float).to_numpy()
+    current_stage = float(current_stage_ft)
+    remaining = top["analog_remaining_rise_ft"].astype(float).clip(lower=0.0).to_numpy()
+    projected_crests = current_stage + remaining
     scores = top["score"].astype(float).to_numpy()
+
     # Stable inverse-square weighting. The +0.25 prevents one near-perfect match from
     # completely steamrolling the rest of the analog set.
     weights = 1.0 / np.square(scores + 0.25)
-    most_likely = float(np.average(crests, weights=weights))
+    most_likely = float(np.average(projected_crests, weights=weights))
 
     top_rows = []
     for _, r in top.iterrows():
+        rem = max(0.0, float(r.get("analog_remaining_rise_ft", 0.0)))
         top_rows.append({
             "event_id": str(r.get("event_id", "")),
             "snapshot_datetime": str(r.get("snapshot_datetime", "")),
@@ -163,16 +187,18 @@ def summarize_analogs(top: pd.DataFrame) -> AnalogForecast:
             "momentum_r1_minus_r3": round(float(r.get("momentum_r1_minus_r3", np.nan)), 3),
             "elapsed_hr_since_rise_start": None if pd.isna(r.get("elapsed_hr_since_rise_start")) else round(float(r.get("elapsed_hr_since_rise_start")), 2),
             "observed_crest_ft": round(float(r.get("analog_crest_ft", np.nan)), 2),
+            "analog_remaining_rise_ft": round(rem, 2),
+            "projected_crest_ft": round(current_stage + rem, 2),
             "score": round(float(r.get("score", np.nan)), 3),
         })
 
     return AnalogForecast(
         most_likely_crest_ft=round(most_likely, 2),
-        analog_min_ft=round(float(np.min(crests)), 2),
-        analog_max_ft=round(float(np.max(crests)), 2),
-        median_top_analog_ft=round(float(np.percentile(crests, 50)), 2),
-        p75_top_analog_ft=round(float(np.percentile(crests, 75)), 2),
-        p90_top_analog_ft=round(float(np.percentile(crests, 90)), 2),
+        analog_min_ft=round(float(np.min(projected_crests)), 2),
+        analog_max_ft=round(float(np.max(projected_crests)), 2),
+        median_top_analog_ft=round(float(np.percentile(projected_crests, 50)), 2),
+        p75_top_analog_ft=round(float(np.percentile(projected_crests, 75)), 2),
+        p90_top_analog_ft=round(float(np.percentile(projected_crests, 90)), 2),
         num_analogs=int(len(top)),
         top_analogs=top_rows,
     )
@@ -190,4 +216,4 @@ def run_analog_forecast(
         top_n_events=top_n_events,
         dedupe_by_event=dedupe_by_event,
     )
-    return summarize_analogs(top)
+    return summarize_analogs(top, current_stage_ft=float(live_features["stage_ft"]))
