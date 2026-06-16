@@ -1,2 +1,2 @@
 valid_time_utc,hydrograph_state,current_stage_ft,r1_ft_per_hr,r3_ft_per_hr,r6_ft_per_hr,max_r3_so_far_ft_per_hr,max_r6_so_far_ft_per_hr,momentum_r1_minus_r3,elapsed_hr_since_rise_start,most_likely_crest_ft,regression_projected_crest_ft,decision_crest_v3_ft,near_crest_taper_applied,near_crest_taper_cap_ft,confidence,decision_method
-2026-06-16T18:00:00+00:00,ACTIVE_ELEVATED_RISE,14.57,1.13,1.09,0.613,1.09,0.613,0.04,12.0,20.02,27.79,20.86,False,,MEDIUM,V3_1_DECEL_AWARE_P90_PLUS_STAGE_FLOOR
+2026-06-16T21:00:00+00:00,ACTIVE_ELEVATED_RISE,16.63,0.56,0.687,0.888,1.11,0.888,-0.127,15.0,19.76,28.33,23.3,False,,LOW,V3_1_DECEL_AWARE_P90_PLUS_STAGE_FLOOR
