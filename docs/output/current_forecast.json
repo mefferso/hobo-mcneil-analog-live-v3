@@ -6,32 +6,32 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-06-24T14:00:00+00:00",
+  "valid_time_utc": "2026-06-24T16:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-06-24T14:00:00+00:00",
-    "current_stage_ft": 9.44,
-    "stage_ft": 9.44,
-    "h0_stage_ft": 9.44,
+    "valid_time_utc": "2026-06-24T16:00:00+00:00",
+    "current_stage_ft": 9.37,
+    "stage_ft": 9.37,
+    "h0_stage_ft": 9.37,
     "rise_so_far_ft": 0.0,
     "elapsed_hr_since_rise_start": 0.0,
     "r1_ft_per_hr": -0.04,
     "r3_ft_per_hr": -0.037,
-    "r6_ft_per_hr": -0.033,
+    "r6_ft_per_hr": -0.035,
     "momentum_r1_minus_r3": -0.003,
     "max_r1_so_far_ft_per_hr": 0.0,
     "max_r3_so_far_ft_per_hr": 0.0,
     "max_r6_so_far_ft_per_hr": 0.0,
     "max_accel_3hr_so_far": 0.0,
     "hydrograph_state": "LOW_FLAT_FALLING",
-    "rise_start_time_utc": "2026-06-24T14:00:00+00:00"
+    "rise_start_time_utc": "2026-06-24T16:00:00+00:00"
   },
   "analog_forecast": {
-    "most_likely_crest_ft": 16.26,
-    "analog_min_ft": 9.44,
-    "analog_max_ft": 18.97,
-    "median_top_analog_ft": 16.45,
-    "p75_top_analog_ft": 18.13,
-    "p90_top_analog_ft": 18.84,
+    "most_likely_crest_ft": 16.19,
+    "analog_min_ft": 9.37,
+    "analog_max_ft": 18.9,
+    "median_top_analog_ft": 16.38,
+    "p75_top_analog_ft": 18.06,
+    "p90_top_analog_ft": 18.77,
     "num_analogs": 7,
     "top_analogs": [
       {
@@ -48,8 +48,8 @@
         "elapsed_hr_since_rise_start": 6.0,
         "observed_crest_ft": 17.12,
         "analog_remaining_rise_ft": 6.6,
-        "projected_crest_ft": 16.04,
-        "score": 1.836
+        "projected_crest_ft": 15.97,
+        "score": 1.886
       },
       {
         "event_id": "20210721_1623",
@@ -65,8 +65,8 @@
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 16.21,
         "analog_remaining_rise_ft": 7.01,
-        "projected_crest_ft": 16.45,
-        "score": 2.135
+        "projected_crest_ft": 16.38,
+        "score": 2.084
       },
       {
         "event_id": "20210505_1554",
@@ -82,8 +82,8 @@
         "elapsed_hr_since_rise_start": 12.0,
         "observed_crest_ft": 15.52,
         "analog_remaining_rise_ft": 6.02,
-        "projected_crest_ft": 15.46,
-        "score": 2.791
+        "projected_crest_ft": 15.39,
+        "score": 2.82
       },
       {
         "event_id": "20240109_1655",
@@ -99,8 +99,8 @@
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 16.55,
         "analog_remaining_rise_ft": 9.31,
-        "projected_crest_ft": 18.75,
-        "score": 2.967
+        "projected_crest_ft": 18.68,
+        "score": 2.916
       },
       {
         "event_id": "20210415_1956",
@@ -116,8 +116,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 19.55,
         "analog_remaining_rise_ft": 9.53,
-        "projected_crest_ft": 18.97,
-        "score": 3.042
+        "projected_crest_ft": 18.9,
+        "score": 3.111
       },
       {
         "event_id": "20210205_1762",
@@ -133,8 +133,8 @@
         "elapsed_hr_since_rise_start": 6.0,
         "observed_crest_ft": 9.32,
         "analog_remaining_rise_ft": 0.0,
-        "projected_crest_ft": 9.44,
-        "score": 3.565
+        "projected_crest_ft": 9.37,
+        "score": 3.514
       },
       {
         "event_id": "20210425_1587",
@@ -150,8 +150,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 15.86,
         "analog_remaining_rise_ft": 8.07,
-        "projected_crest_ft": 17.51,
-        "score": 3.578
+        "projected_crest_ft": 17.44,
+        "score": 3.528
       }
     ]
   },
@@ -160,15 +160,15 @@
     "reason": "hydrograph_state=LOW_FLAT_FALLING; regression disabled outside active rise",
     "raw_regression_crest_ft": null,
     "attenuation_factor": null,
-    "projected_crest_ft": 9.44
+    "projected_crest_ft": 9.37
   },
   "v3_decision": {
-    "decision_crest_ft": 9.44,
+    "decision_crest_ft": 9.37,
     "decision_method": "LOW_FLAT_FALLING_HYDROGRAPH_BASELINE",
     "confidence": "HIGH",
     "confidence_reason": "hydrograph_state=LOW_FLAT_FALLING; analog crest guidance suppressed because no active rise signal is present; decision held to current hydrograph/stage-floor baseline",
     "v3_floor_remaining_ft": 0.0,
-    "v3_floor_crest_ft": 9.44,
+    "v3_floor_crest_ft": 9.37,
     "v3_floor_reason": "no stage-floor trigger",
     "v3_major_potential_flag": false,
     "v3_major_potential_reason": "no V3 major-potential trigger",
@@ -180,21 +180,13 @@
     "near_crest_taper_reason": "near-crest taper not eligible below 16 ft"
   },
   "headline": {
-    "decision_crest_ft": 9.44,
-    "most_likely_crest_ft": 16.26,
+    "decision_crest_ft": 9.37,
+    "most_likely_crest_ft": 16.19,
     "crest_category": "below flood stage",
     "confidence": "HIGH",
     "method": "LOW_FLAT_FALLING_HYDROGRAPH_BASELINE"
   },
   "recent_hourly_stage": [
-    {
-      "datetime_utc": "2026-06-24 03:00:00+00:00",
-      "stage_ft": 9.81
-    },
-    {
-      "datetime_utc": "2026-06-24 04:00:00+00:00",
-      "stage_ft": 9.77
-    },
     {
       "datetime_utc": "2026-06-24 05:00:00+00:00",
       "stage_ft": 9.73
@@ -234,6 +226,14 @@
     {
       "datetime_utc": "2026-06-24 14:00:00+00:00",
       "stage_ft": 9.44
+    },
+    {
+      "datetime_utc": "2026-06-24 15:00:00+00:00",
+      "stage_ft": 9.41
+    },
+    {
+      "datetime_utc": "2026-06-24 16:00:00+00:00",
+      "stage_ft": 9.37
     }
   ],
   "notes": [
