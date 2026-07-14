@@ -1,2 +1,2 @@
 valid_time_utc,hydrograph_state,current_stage_ft,r1_ft_per_hr,r3_ft_per_hr,r6_ft_per_hr,max_r3_so_far_ft_per_hr,max_r6_so_far_ft_per_hr,momentum_r1_minus_r3,elapsed_hr_since_rise_start,most_likely_crest_ft,regression_projected_crest_ft,decision_crest_v3_ft,near_crest_taper_applied,near_crest_taper_cap_ft,confidence,decision_method
-2026-07-13T22:00:00+00:00,WEAK_OR_UNCLEAR_RISE,7.68,0.39,0.187,0.097,0.187,0.097,0.203,3.0,17.38,7.68,7.68,False,,MEDIUM,WEAK_OR_UNCLEAR_RISE_HYDROGRAPH_BASELINE
+2026-07-13T23:00:00+00:00,ACTIVE_RISE,8.13,0.45,0.323,0.175,0.323,0.175,0.127,4.0,17.15,18.4,18.94,False,,MEDIUM,P75_TOP_ANALOG_BASELINE
