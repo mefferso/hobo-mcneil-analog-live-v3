@@ -6,32 +6,32 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-07-18T15:00:00+00:00",
+  "valid_time_utc": "2026-07-18T16:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-07-18T15:00:00+00:00",
-    "current_stage_ft": 6.53,
-    "stage_ft": 6.53,
-    "h0_stage_ft": 6.53,
+    "valid_time_utc": "2026-07-18T16:00:00+00:00",
+    "current_stage_ft": 6.52,
+    "stage_ft": 6.52,
+    "h0_stage_ft": 6.52,
     "rise_so_far_ft": 0.0,
     "elapsed_hr_since_rise_start": 0.0,
-    "r1_ft_per_hr": -0.02,
-    "r3_ft_per_hr": -0.013,
-    "r6_ft_per_hr": -0.008,
-    "momentum_r1_minus_r3": -0.007,
+    "r1_ft_per_hr": -0.01,
+    "r3_ft_per_hr": -0.017,
+    "r6_ft_per_hr": -0.01,
+    "momentum_r1_minus_r3": 0.007,
     "max_r1_so_far_ft_per_hr": 0.0,
     "max_r3_so_far_ft_per_hr": 0.0,
     "max_r6_so_far_ft_per_hr": 0.0,
     "max_accel_3hr_so_far": 0.0,
     "hydrograph_state": "LOW_FLAT_FALLING",
-    "rise_start_time_utc": "2026-07-18T15:00:00+00:00"
+    "rise_start_time_utc": "2026-07-18T16:00:00+00:00"
   },
   "analog_forecast": {
     "most_likely_crest_ft": 17.52,
-    "analog_min_ft": 15.03,
-    "analog_max_ft": 22.96,
-    "median_top_analog_ft": 17.52,
-    "p75_top_analog_ft": 18.65,
-    "p90_top_analog_ft": 20.62,
+    "analog_min_ft": 15.02,
+    "analog_max_ft": 22.95,
+    "median_top_analog_ft": 17.51,
+    "p75_top_analog_ft": 18.64,
+    "p90_top_analog_ft": 20.61,
     "num_analogs": 7,
     "top_analogs": [
       {
@@ -48,25 +48,8 @@
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 16.55,
         "analog_remaining_rise_ft": 9.31,
-        "projected_crest_ft": 15.84,
-        "score": 1.601
-      },
-      {
-        "event_id": "20071023_1512",
-        "snapshot_datetime": "2007-10-22 23:00:00+00:00",
-        "stage_ft": 6.62,
-        "h0_stage_ft": 6.62,
-        "r1_ft_per_hr": 0.263,
-        "r3_ft_per_hr": 0.113,
-        "r6_ft_per_hr": 0.086,
-        "max_r3_so_far_ft_per_hr": 0.113,
-        "max_r6_so_far_ft_per_hr": 0.086,
-        "momentum_r1_minus_r3": 0.15,
-        "elapsed_hr_since_rise_start": 0.0,
-        "observed_crest_ft": 15.11,
-        "analog_remaining_rise_ft": 8.5,
-        "projected_crest_ft": 15.03,
-        "score": 2.201
+        "projected_crest_ft": 15.83,
+        "score": 1.611
       },
       {
         "event_id": "20110905_1737",
@@ -82,8 +65,25 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 17.37,
         "analog_remaining_rise_ft": 10.99,
-        "projected_crest_ft": 17.52,
-        "score": 2.212
+        "projected_crest_ft": 17.51,
+        "score": 2.196
+      },
+      {
+        "event_id": "20071023_1512",
+        "snapshot_datetime": "2007-10-22 23:00:00+00:00",
+        "stage_ft": 6.62,
+        "h0_stage_ft": 6.62,
+        "r1_ft_per_hr": 0.263,
+        "r3_ft_per_hr": 0.113,
+        "r6_ft_per_hr": 0.086,
+        "max_r3_so_far_ft_per_hr": 0.113,
+        "max_r6_so_far_ft_per_hr": 0.086,
+        "momentum_r1_minus_r3": 0.15,
+        "elapsed_hr_since_rise_start": 0.0,
+        "observed_crest_ft": 15.11,
+        "analog_remaining_rise_ft": 8.5,
+        "projected_crest_ft": 15.02,
+        "score": 2.202
       },
       {
         "event_id": "20190512_2297",
@@ -99,8 +99,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 22.95,
         "analog_remaining_rise_ft": 16.43,
-        "projected_crest_ft": 22.96,
-        "score": 2.32
+        "projected_crest_ft": 22.95,
+        "score": 2.321
       },
       {
         "event_id": "20160224_1871",
@@ -116,8 +116,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 18.7,
         "analog_remaining_rise_ft": 11.71,
-        "projected_crest_ft": 18.24,
-        "score": 2.433
+        "projected_crest_ft": 18.23,
+        "score": 2.434
       },
       {
         "event_id": "20181229_1972",
@@ -133,8 +133,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 19.7,
         "analog_remaining_rise_ft": 12.53,
-        "projected_crest_ft": 19.06,
-        "score": 2.44
+        "projected_crest_ft": 19.05,
+        "score": 2.441
       },
       {
         "event_id": "20200104_1598",
@@ -150,8 +150,8 @@
         "elapsed_hr_since_rise_start": 0.0,
         "observed_crest_ft": 15.97,
         "analog_remaining_rise_ft": 9.1,
-        "projected_crest_ft": 15.63,
-        "score": 2.637
+        "projected_crest_ft": 15.62,
+        "score": 2.638
       }
     ]
   },
@@ -160,15 +160,15 @@
     "reason": "hydrograph_state=LOW_FLAT_FALLING; regression disabled outside active rise",
     "raw_regression_crest_ft": null,
     "attenuation_factor": null,
-    "projected_crest_ft": 6.53
+    "projected_crest_ft": 6.52
   },
   "v3_decision": {
-    "decision_crest_ft": 6.53,
+    "decision_crest_ft": 6.52,
     "decision_method": "LOW_FLAT_FALLING_HYDROGRAPH_BASELINE",
     "confidence": "HIGH",
     "confidence_reason": "hydrograph_state=LOW_FLAT_FALLING; analog crest guidance suppressed because no active rise signal is present; decision held to current hydrograph/stage-floor baseline",
     "v3_floor_remaining_ft": 0.0,
-    "v3_floor_crest_ft": 6.53,
+    "v3_floor_crest_ft": 6.52,
     "v3_floor_reason": "no stage-floor trigger",
     "v3_major_potential_flag": false,
     "v3_major_potential_reason": "no V3 major-potential trigger",
@@ -180,17 +180,13 @@
     "near_crest_taper_reason": "near-crest taper not eligible below 16 ft"
   },
   "headline": {
-    "decision_crest_ft": 6.53,
+    "decision_crest_ft": 6.52,
     "most_likely_crest_ft": 17.52,
     "crest_category": "below flood stage",
     "confidence": "HIGH",
     "method": "LOW_FLAT_FALLING_HYDROGRAPH_BASELINE"
   },
   "recent_hourly_stage": [
-    {
-      "datetime_utc": "2026-07-18 04:00:00+00:00",
-      "stage_ft": 6.6
-    },
     {
       "datetime_utc": "2026-07-18 05:00:00+00:00",
       "stage_ft": 6.59
@@ -234,6 +230,10 @@
     {
       "datetime_utc": "2026-07-18 15:00:00+00:00",
       "stage_ft": 6.53
+    },
+    {
+      "datetime_utc": "2026-07-18 16:00:00+00:00",
+      "stage_ft": 6.52
     }
   ],
   "notes": [
