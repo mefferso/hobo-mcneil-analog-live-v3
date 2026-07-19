@@ -6,24 +6,24 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-07-19T05:00:00+00:00",
+  "valid_time_utc": "2026-07-19T08:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-07-19T05:00:00+00:00",
+    "valid_time_utc": "2026-07-19T08:00:00+00:00",
     "current_stage_ft": 6.49,
     "stage_ft": 6.49,
     "h0_stage_ft": 6.49,
     "rise_so_far_ft": 0.0,
     "elapsed_hr_since_rise_start": 0.0,
-    "r1_ft_per_hr": 0.0,
-    "r3_ft_per_hr": 0.003,
-    "r6_ft_per_hr": 0.005,
-    "momentum_r1_minus_r3": -0.003,
-    "max_r1_so_far_ft_per_hr": 0.0,
-    "max_r3_so_far_ft_per_hr": 0.003,
-    "max_r6_so_far_ft_per_hr": 0.005,
-    "max_accel_3hr_so_far": 0.0,
+    "r1_ft_per_hr": 0.01,
+    "r3_ft_per_hr": 0.0,
+    "r6_ft_per_hr": 0.002,
+    "momentum_r1_minus_r3": 0.01,
+    "max_r1_so_far_ft_per_hr": 0.01,
+    "max_r3_so_far_ft_per_hr": 0.0,
+    "max_r6_so_far_ft_per_hr": 0.002,
+    "max_accel_3hr_so_far": 0.003,
     "hydrograph_state": "WEAK_OR_UNCLEAR_RISE",
-    "rise_start_time_utc": "2026-07-19T05:00:00+00:00"
+    "rise_start_time_utc": "2026-07-19T08:00:00+00:00"
   },
   "analog_forecast": {
     "most_likely_crest_ft": 17.59,
@@ -49,7 +49,7 @@
         "observed_crest_ft": 16.55,
         "analog_remaining_rise_ft": 9.31,
         "projected_crest_ft": 15.8,
-        "score": 1.787
+        "score": 1.782
       },
       {
         "event_id": "20110905_1737",
@@ -66,7 +66,7 @@
         "observed_crest_ft": 17.37,
         "analog_remaining_rise_ft": 10.99,
         "projected_crest_ft": 17.48,
-        "score": 2.019
+        "score": 2.024
       },
       {
         "event_id": "20071023_1512",
@@ -83,7 +83,7 @@
         "observed_crest_ft": 15.11,
         "analog_remaining_rise_ft": 8.5,
         "projected_crest_ft": 14.99,
-        "score": 2.077
+        "score": 2.082
       },
       {
         "event_id": "20190512_2297",
@@ -100,7 +100,7 @@
         "observed_crest_ft": 22.95,
         "analog_remaining_rise_ft": 16.43,
         "projected_crest_ft": 22.92,
-        "score": 2.196
+        "score": 2.201
       },
       {
         "event_id": "20160224_1871",
@@ -117,7 +117,7 @@
         "observed_crest_ft": 18.7,
         "analog_remaining_rise_ft": 11.71,
         "projected_crest_ft": 18.2,
-        "score": 2.309
+        "score": 2.314
       },
       {
         "event_id": "20181229_1972",
@@ -134,7 +134,7 @@
         "observed_crest_ft": 19.7,
         "analog_remaining_rise_ft": 12.53,
         "projected_crest_ft": 19.02,
-        "score": 2.316
+        "score": 2.321
       },
       {
         "event_id": "20200104_1598",
@@ -151,7 +151,7 @@
         "observed_crest_ft": 15.97,
         "analog_remaining_rise_ft": 9.1,
         "projected_crest_ft": 15.59,
-        "score": 2.513
+        "score": 2.518
       }
     ]
   },
@@ -188,18 +188,6 @@
   },
   "recent_hourly_stage": [
     {
-      "datetime_utc": "2026-07-18 18:00:00+00:00",
-      "stage_ft": 6.51
-    },
-    {
-      "datetime_utc": "2026-07-18 19:00:00+00:00",
-      "stage_ft": 6.47
-    },
-    {
-      "datetime_utc": "2026-07-18 20:00:00+00:00",
-      "stage_ft": 6.49
-    },
-    {
       "datetime_utc": "2026-07-18 21:00:00+00:00",
       "stage_ft": 6.46
     },
@@ -233,6 +221,18 @@
     },
     {
       "datetime_utc": "2026-07-19 05:00:00+00:00",
+      "stage_ft": 6.49
+    },
+    {
+      "datetime_utc": "2026-07-19 06:00:00+00:00",
+      "stage_ft": 6.48
+    },
+    {
+      "datetime_utc": "2026-07-19 07:00:00+00:00",
+      "stage_ft": 6.48
+    },
+    {
+      "datetime_utc": "2026-07-19 08:00:00+00:00",
       "stage_ft": 6.49
     }
   ],
