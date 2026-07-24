@@ -6,24 +6,24 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-07-24T12:00:00+00:00",
+  "valid_time_utc": "2026-07-24T14:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-07-24T12:00:00+00:00",
+    "valid_time_utc": "2026-07-24T14:00:00+00:00",
     "current_stage_ft": 6.36,
     "stage_ft": 6.36,
     "h0_stage_ft": 6.36,
     "rise_so_far_ft": 0.0,
     "elapsed_hr_since_rise_start": 0.0,
     "r1_ft_per_hr": 0.0,
-    "r3_ft_per_hr": -0.003,
+    "r3_ft_per_hr": 0.0,
     "r6_ft_per_hr": -0.003,
-    "momentum_r1_minus_r3": 0.003,
+    "momentum_r1_minus_r3": 0.0,
     "max_r1_so_far_ft_per_hr": 0.0,
     "max_r3_so_far_ft_per_hr": 0.0,
     "max_r6_so_far_ft_per_hr": 0.0,
-    "max_accel_3hr_so_far": 0.003,
+    "max_accel_3hr_so_far": 0.0,
     "hydrograph_state": "LOW_FLAT_FALLING",
-    "rise_start_time_utc": "2026-07-24T12:00:00+00:00"
+    "rise_start_time_utc": "2026-07-24T14:00:00+00:00"
   },
   "analog_forecast": {
     "most_likely_crest_ft": 17.43,
@@ -100,7 +100,7 @@
         "observed_crest_ft": 22.95,
         "analog_remaining_rise_ft": 16.43,
         "projected_crest_ft": 22.79,
-        "score": 2.371
+        "score": 2.37
       },
       {
         "event_id": "20160224_1871",
@@ -188,14 +188,6 @@
   },
   "recent_hourly_stage": [
     {
-      "datetime_utc": "2026-07-24 01:00:00+00:00",
-      "stage_ft": 6.33
-    },
-    {
-      "datetime_utc": "2026-07-24 02:00:00+00:00",
-      "stage_ft": 6.35
-    },
-    {
       "datetime_utc": "2026-07-24 03:00:00+00:00",
       "stage_ft": 6.36
     },
@@ -233,6 +225,14 @@
     },
     {
       "datetime_utc": "2026-07-24 12:00:00+00:00",
+      "stage_ft": 6.36
+    },
+    {
+      "datetime_utc": "2026-07-24 13:00:00+00:00",
+      "stage_ft": 6.36
+    },
+    {
+      "datetime_utc": "2026-07-24 14:00:00+00:00",
       "stage_ft": 6.36
     }
   ],
