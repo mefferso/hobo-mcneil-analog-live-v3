@@ -6,9 +6,9 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-08-05T06:00:00+00:00",
+  "valid_time_utc": "2026-08-05T09:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-08-05T06:00:00+00:00",
+    "valid_time_utc": "2026-08-05T09:00:00+00:00",
     "current_stage_ft": 5.98,
     "stage_ft": 5.98,
     "h0_stage_ft": 5.98,
@@ -23,7 +23,7 @@
     "max_r6_so_far_ft_per_hr": 0.0,
     "max_accel_3hr_so_far": 0.0,
     "hydrograph_state": "LOW_FLAT_FALLING",
-    "rise_start_time_utc": "2026-08-05T06:00:00+00:00"
+    "rise_start_time_utc": "2026-08-05T09:00:00+00:00"
   },
   "analog_forecast": {
     "most_likely_crest_ft": 17.08,
@@ -188,18 +188,6 @@
   },
   "recent_hourly_stage": [
     {
-      "datetime_utc": "2026-08-04 19:00:00+00:00",
-      "stage_ft": 5.98
-    },
-    {
-      "datetime_utc": "2026-08-04 20:00:00+00:00",
-      "stage_ft": 5.97
-    },
-    {
-      "datetime_utc": "2026-08-04 21:00:00+00:00",
-      "stage_ft": 5.96
-    },
-    {
       "datetime_utc": "2026-08-04 22:00:00+00:00",
       "stage_ft": 5.97
     },
@@ -233,6 +221,18 @@
     },
     {
       "datetime_utc": "2026-08-05 06:00:00+00:00",
+      "stage_ft": 5.98
+    },
+    {
+      "datetime_utc": "2026-08-05 07:00:00+00:00",
+      "stage_ft": 5.98
+    },
+    {
+      "datetime_utc": "2026-08-05 08:00:00+00:00",
+      "stage_ft": 5.98
+    },
+    {
+      "datetime_utc": "2026-08-05 09:00:00+00:00",
       "stage_ft": 5.98
     }
   ],
