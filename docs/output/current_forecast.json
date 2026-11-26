@@ -6,67 +6,118 @@
     "usgs_parameter": "00065"
   },
   "source": "USGS IV site=02492360 parameter=00065",
-  "valid_time_utc": "2026-11-26T14:00:00+00:00",
+  "valid_time_utc": "2026-11-26T23:00:00+00:00",
   "current_state": {
-    "valid_time_utc": "2026-11-26T14:00:00+00:00",
-    "current_stage_ft": 7.24,
-    "stage_ft": 7.24,
+    "valid_time_utc": "2026-11-26T23:00:00+00:00",
+    "current_stage_ft": 7.12,
+    "stage_ft": 7.12,
     "h0_stage_ft": 5.88,
-    "rise_so_far_ft": 1.36,
-    "elapsed_hr_since_rise_start": 29.0,
-    "r1_ft_per_hr": 0.03,
-    "r3_ft_per_hr": 0.06,
-    "r6_ft_per_hr": 0.062,
-    "momentum_r1_minus_r3": -0.03,
+    "rise_so_far_ft": 1.24,
+    "elapsed_hr_since_rise_start": 38.0,
+    "r1_ft_per_hr": -0.01,
+    "r3_ft_per_hr": -0.017,
+    "r6_ft_per_hr": -0.02,
+    "momentum_r1_minus_r3": 0.007,
     "max_r1_so_far_ft_per_hr": 0.2,
     "max_r3_so_far_ft_per_hr": 0.18,
     "max_r6_so_far_ft_per_hr": 0.153,
     "max_accel_3hr_so_far": 0.053,
-    "hydrograph_state": "WEAK_OR_UNCLEAR_RISE",
+    "hydrograph_state": "FALLING_OR_RECESSION",
     "rise_start_time_utc": "2026-11-25T09:00:00+00:00"
   },
   "analog_forecast": {
-    "most_likely_crest_ft": 16.73,
-    "analog_min_ft": 14.39,
-    "analog_max_ft": 19.77,
-    "median_top_analog_ft": 17.85,
-    "p75_top_analog_ft": 18.47,
-    "p90_top_analog_ft": 19.27,
+    "most_likely_crest_ft": 16.01,
+    "analog_min_ft": 14.28,
+    "analog_max_ft": 18.01,
+    "median_top_analog_ft": 15.06,
+    "p75_top_analog_ft": 17.44,
+    "p90_top_analog_ft": 17.84,
     "num_analogs": 7,
     "top_analogs": [
       {
-        "event_id": "20240109_1655",
-        "snapshot_datetime": "2024-01-07 03:00:00+00:00",
-        "stage_ft": 7.14,
-        "h0_stage_ft": 6.88,
-        "r1_ft_per_hr": 0.002,
-        "r3_ft_per_hr": 0.037,
-        "r6_ft_per_hr": 0.042,
-        "max_r3_so_far_ft_per_hr": 0.037,
-        "max_r6_so_far_ft_per_hr": 0.042,
-        "momentum_r1_minus_r3": -0.035,
-        "elapsed_hr_since_rise_start": 20.0,
-        "observed_crest_ft": 16.55,
-        "analog_remaining_rise_ft": 9.41,
-        "projected_crest_ft": 16.65,
-        "score": 2.614
+        "event_id": "20210505_1554",
+        "snapshot_datetime": "2021-05-04 07:00:00+00:00",
+        "stage_ft": 8.31,
+        "h0_stage_ft": 7.63,
+        "r1_ft_per_hr": -0.025,
+        "r3_ft_per_hr": -0.021,
+        "r6_ft_per_hr": -0.013,
+        "max_r3_so_far_ft_per_hr": 0.0,
+        "max_r6_so_far_ft_per_hr": 0.0,
+        "momentum_r1_minus_r3": -0.004,
+        "elapsed_hr_since_rise_start": 38.0,
+        "observed_crest_ft": 15.52,
+        "analog_remaining_rise_ft": 7.23,
+        "projected_crest_ft": 14.35,
+        "score": 2.475
       },
       {
-        "event_id": "20210505_1554",
-        "snapshot_datetime": "2021-05-04 01:00:00+00:00",
-        "stage_ft": 8.39,
-        "h0_stage_ft": 7.63,
-        "r1_ft_per_hr": 0.01,
-        "r3_ft_per_hr": 0.018,
-        "r6_ft_per_hr": -0.01,
-        "max_r3_so_far_ft_per_hr": 0.018,
+        "event_id": "20240109_1655",
+        "snapshot_datetime": "2024-01-07 21:00:00+00:00",
+        "stage_ft": 6.52,
+        "h0_stage_ft": 6.88,
+        "r1_ft_per_hr": -0.015,
+        "r3_ft_per_hr": -0.017,
+        "r6_ft_per_hr": -0.021,
+        "max_r3_so_far_ft_per_hr": 0.0,
         "max_r6_so_far_ft_per_hr": 0.0,
-        "momentum_r1_minus_r3": -0.008,
-        "elapsed_hr_since_rise_start": 32.0,
-        "observed_crest_ft": 15.52,
-        "analog_remaining_rise_ft": 7.15,
-        "projected_crest_ft": 14.39,
-        "score": 3.14
+        "momentum_r1_minus_r3": 0.002,
+        "elapsed_hr_since_rise_start": 38.0,
+        "observed_crest_ft": 16.55,
+        "analog_remaining_rise_ft": 10.03,
+        "projected_crest_ft": 17.15,
+        "score": 2.505
+      },
+      {
+        "event_id": "20210410_1948",
+        "snapshot_datetime": "2021-04-10 00:00:00+00:00",
+        "stage_ft": 8.59,
+        "h0_stage_ft": 7.56,
+        "r1_ft_per_hr": -0.062,
+        "r3_ft_per_hr": -0.07,
+        "r6_ft_per_hr": -0.083,
+        "max_r3_so_far_ft_per_hr": 0.0,
+        "max_r6_so_far_ft_per_hr": 0.0,
+        "momentum_r1_minus_r3": 0.007,
+        "elapsed_hr_since_rise_start": 38.0,
+        "observed_crest_ft": 19.46,
+        "analog_remaining_rise_ft": 10.89,
+        "projected_crest_ft": 18.01,
+        "score": 2.867
+      },
+      {
+        "event_id": "20210721_1623",
+        "snapshot_datetime": "2021-07-19 22:00:00+00:00",
+        "stage_ft": 8.48,
+        "h0_stage_ft": 8.21,
+        "r1_ft_per_hr": -0.013,
+        "r3_ft_per_hr": -0.053,
+        "r6_ft_per_hr": -0.079,
+        "max_r3_so_far_ft_per_hr": 0.0,
+        "max_r6_so_far_ft_per_hr": 0.0,
+        "momentum_r1_minus_r3": 0.04,
+        "elapsed_hr_since_rise_start": 39.0,
+        "observed_crest_ft": 16.21,
+        "analog_remaining_rise_ft": 7.75,
+        "projected_crest_ft": 14.87,
+        "score": 3.322
+      },
+      {
+        "event_id": "20130225_1748",
+        "snapshot_datetime": "2013-02-25 06:00:00+00:00",
+        "stage_ft": 9.54,
+        "h0_stage_ft": 8.88,
+        "r1_ft_per_hr": -0.01,
+        "r3_ft_per_hr": -0.038,
+        "r6_ft_per_hr": -0.065,
+        "max_r3_so_far_ft_per_hr": 0.0,
+        "max_r6_so_far_ft_per_hr": 0.0,
+        "momentum_r1_minus_r3": 0.028,
+        "elapsed_hr_since_rise_start": 46.0,
+        "observed_crest_ft": 17.48,
+        "analog_remaining_rise_ft": 7.94,
+        "projected_crest_ft": 15.06,
+        "score": 4.408
       },
       {
         "event_id": "20090328_1915",
@@ -82,97 +133,46 @@
         "elapsed_hr_since_rise_start": 8.0,
         "observed_crest_ft": 19.15,
         "analog_remaining_rise_ft": 10.61,
-        "projected_crest_ft": 17.85,
-        "score": 3.756
+        "projected_crest_ft": 17.73,
+        "score": 5.319
       },
       {
-        "event_id": "20210721_1623",
-        "snapshot_datetime": "2021-07-20 00:00:00+00:00",
-        "stage_ft": 8.96,
-        "h0_stage_ft": 8.21,
-        "r1_ft_per_hr": 0.178,
-        "r3_ft_per_hr": 0.158,
-        "r6_ft_per_hr": 0.041,
-        "max_r3_so_far_ft_per_hr": 0.158,
-        "max_r6_so_far_ft_per_hr": 0.041,
-        "momentum_r1_minus_r3": 0.02,
-        "elapsed_hr_since_rise_start": 41.0,
-        "observed_crest_ft": 16.21,
-        "analog_remaining_rise_ft": 7.27,
-        "projected_crest_ft": 14.51,
-        "score": 4.032
-      },
-      {
-        "event_id": "20210410_1948",
-        "snapshot_datetime": "2021-04-09 22:00:00+00:00",
-        "stage_ft": 8.72,
-        "h0_stage_ft": 7.56,
-        "r1_ft_per_hr": -0.072,
-        "r3_ft_per_hr": -0.087,
-        "r6_ft_per_hr": -0.103,
-        "max_r3_so_far_ft_per_hr": 0.0,
-        "max_r6_so_far_ft_per_hr": 0.0,
-        "momentum_r1_minus_r3": 0.014,
-        "elapsed_hr_since_rise_start": 36.0,
-        "observed_crest_ft": 19.46,
-        "analog_remaining_rise_ft": 10.76,
-        "projected_crest_ft": 18.0,
-        "score": 4.348
-      },
-      {
-        "event_id": "20181229_1972",
-        "snapshot_datetime": "2018-12-27 22:00:00+00:00",
-        "stage_ft": 7.19,
-        "h0_stage_ft": 7.19,
-        "r1_ft_per_hr": 0.255,
-        "r3_ft_per_hr": 0.107,
-        "r6_ft_per_hr": 0.058,
-        "max_r3_so_far_ft_per_hr": 0.107,
-        "max_r6_so_far_ft_per_hr": 0.058,
-        "momentum_r1_minus_r3": 0.147,
-        "elapsed_hr_since_rise_start": 0.0,
-        "observed_crest_ft": 19.7,
-        "analog_remaining_rise_ft": 12.53,
-        "projected_crest_ft": 19.77,
-        "score": 4.807
-      },
-      {
-        "event_id": "20160224_1871",
-        "snapshot_datetime": "2016-02-23 22:00:00+00:00",
-        "stage_ft": 7.0,
-        "h0_stage_ft": 7.0,
-        "r1_ft_per_hr": 0.26,
-        "r3_ft_per_hr": 0.134,
-        "r6_ft_per_hr": 0.068,
-        "max_r3_so_far_ft_per_hr": 0.134,
-        "max_r6_so_far_ft_per_hr": 0.068,
-        "momentum_r1_minus_r3": 0.126,
-        "elapsed_hr_since_rise_start": 0.0,
-        "observed_crest_ft": 18.7,
-        "analog_remaining_rise_ft": 11.71,
-        "projected_crest_ft": 18.95,
-        "score": 4.843
+        "event_id": "20170605_1714",
+        "snapshot_datetime": "2017-06-03 22:00:00+00:00",
+        "stage_ft": 9.98,
+        "h0_stage_ft": 10.75,
+        "r1_ft_per_hr": 0.098,
+        "r3_ft_per_hr": 0.092,
+        "r6_ft_per_hr": 0.078,
+        "max_r3_so_far_ft_per_hr": 0.092,
+        "max_r6_so_far_ft_per_hr": 0.078,
+        "momentum_r1_minus_r3": 0.005,
+        "elapsed_hr_since_rise_start": 38.0,
+        "observed_crest_ft": 17.12,
+        "analog_remaining_rise_ft": 7.16,
+        "projected_crest_ft": 14.28,
+        "score": 5.437
       }
     ]
   },
   "regression_guidance": {
     "enabled": false,
-    "reason": "hydrograph_state=WEAK_OR_UNCLEAR_RISE; regression disabled outside active rise",
+    "reason": "hydrograph_state=FALLING_OR_RECESSION; regression disabled outside active rise",
     "raw_regression_crest_ft": null,
     "attenuation_factor": null,
-    "projected_crest_ft": 7.24
+    "projected_crest_ft": 7.12
   },
   "v3_decision": {
-    "decision_crest_ft": 7.24,
-    "decision_method": "WEAK_OR_UNCLEAR_RISE_HYDROGRAPH_BASELINE",
-    "confidence": "MEDIUM",
-    "confidence_reason": "hydrograph_state=WEAK_OR_UNCLEAR_RISE; analog crest guidance suppressed because no active rise signal is present; decision held to current hydrograph/stage-floor baseline",
+    "decision_crest_ft": 7.12,
+    "decision_method": "FALLING_OR_RECESSION_HYDROGRAPH_BASELINE",
+    "confidence": "HIGH",
+    "confidence_reason": "hydrograph_state=FALLING_OR_RECESSION; analog crest guidance suppressed because no active rise signal is present; decision held to current hydrograph/stage-floor baseline",
     "v3_floor_remaining_ft": 0.0,
-    "v3_floor_crest_ft": 7.24,
+    "v3_floor_crest_ft": 7.12,
     "v3_floor_reason": "no stage-floor trigger",
     "v3_major_potential_flag": false,
     "v3_major_potential_reason": "no V3 major-potential trigger",
-    "hydrograph_state": "WEAK_OR_UNCLEAR_RISE",
+    "hydrograph_state": "FALLING_OR_RECESSION",
     "analog_guidance_suppressed": true,
     "near_crest_taper_remaining_cap_ft": null,
     "near_crest_taper_crest_cap_ft": null,
@@ -180,49 +180,13 @@
     "near_crest_taper_reason": "near-crest taper not eligible below 16 ft"
   },
   "headline": {
-    "decision_crest_ft": 7.24,
-    "most_likely_crest_ft": 16.73,
+    "decision_crest_ft": 7.12,
+    "most_likely_crest_ft": 16.01,
     "crest_category": "below flood stage",
-    "confidence": "MEDIUM",
-    "method": "WEAK_OR_UNCLEAR_RISE_HYDROGRAPH_BASELINE"
+    "confidence": "HIGH",
+    "method": "FALLING_OR_RECESSION_HYDROGRAPH_BASELINE"
   },
   "recent_hourly_stage": [
-    {
-      "datetime_utc": "2026-11-26 03:00:00+00:00",
-      "stage_ft": 6.93
-    },
-    {
-      "datetime_utc": "2026-11-26 04:00:00+00:00",
-      "stage_ft": 6.91
-    },
-    {
-      "datetime_utc": "2026-11-26 05:00:00+00:00",
-      "stage_ft": 6.89
-    },
-    {
-      "datetime_utc": "2026-11-26 06:00:00+00:00",
-      "stage_ft": 6.88
-    },
-    {
-      "datetime_utc": "2026-11-26 07:00:00+00:00",
-      "stage_ft": 6.87
-    },
-    {
-      "datetime_utc": "2026-11-26 08:00:00+00:00",
-      "stage_ft": 6.87
-    },
-    {
-      "datetime_utc": "2026-11-26 09:00:00+00:00",
-      "stage_ft": 6.88
-    },
-    {
-      "datetime_utc": "2026-11-26 10:00:00+00:00",
-      "stage_ft": 6.96
-    },
-    {
-      "datetime_utc": "2026-11-26 11:00:00+00:00",
-      "stage_ft": 7.06
-    },
     {
       "datetime_utc": "2026-11-26 12:00:00+00:00",
       "stage_ft": 7.15
@@ -234,6 +198,42 @@
     {
       "datetime_utc": "2026-11-26 14:00:00+00:00",
       "stage_ft": 7.24
+    },
+    {
+      "datetime_utc": "2026-11-26 15:00:00+00:00",
+      "stage_ft": 7.25
+    },
+    {
+      "datetime_utc": "2026-11-26 16:00:00+00:00",
+      "stage_ft": 7.24
+    },
+    {
+      "datetime_utc": "2026-11-26 17:00:00+00:00",
+      "stage_ft": 7.24
+    },
+    {
+      "datetime_utc": "2026-11-26 18:00:00+00:00",
+      "stage_ft": 7.21
+    },
+    {
+      "datetime_utc": "2026-11-26 19:00:00+00:00",
+      "stage_ft": 7.19
+    },
+    {
+      "datetime_utc": "2026-11-26 20:00:00+00:00",
+      "stage_ft": 7.17
+    },
+    {
+      "datetime_utc": "2026-11-26 21:00:00+00:00",
+      "stage_ft": 7.15
+    },
+    {
+      "datetime_utc": "2026-11-26 22:00:00+00:00",
+      "stage_ft": 7.13
+    },
+    {
+      "datetime_utc": "2026-11-26 23:00:00+00:00",
+      "stage_ft": 7.12
     }
   ],
   "notes": [
